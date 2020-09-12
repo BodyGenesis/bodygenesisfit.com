@@ -64,6 +64,13 @@ namespace BodyGenesis.Presentation.Website.Pages
 
             if (SubmitAction.Equals("agree", StringComparison.OrdinalIgnoreCase))
             {
+                if (string.IsNullOrWhiteSpace(Signer))
+                {
+                    ViewData["ErrorMessage"] = "Please sign by typing your full name at the bottom of the agreement.";
+
+                    return await base.OnGet(PageId);
+                }
+
                 var membership = customer.CurrentMembershipSubscription;
                 var page = await _api.Pages.GetByIdAsync<AgreementPage>(PageId);
                 var agreementData = page.Blocks.Aggregate(string.Empty, (previous, block) => $"{previous}<br />{_ExtractBlockText(block)}");

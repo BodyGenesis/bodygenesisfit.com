@@ -17,11 +17,8 @@
 <form method="post">
     <div class="mt-4 d-flex justify-content-end">
         <input asp-for="PageId" type="hidden" value="@Model.Data.Id" />
-        <div class="form-group mr-2" style="max-width:350px;">
-            <label for="Signer">Your Signature</label>
-            <input class="form-control" asp-for="Signer" placeholder="Your Full Legal Name" required />
-        </div>
-        <input class="btn btn-light mr-2" asp-for="SubmitAction" type="submit" value="Cancel" />
+        <input class="form-control mr-2" asp-for="Signer" placeholder="Your Full Legal Name" />
         <input class="btn btn-primary" asp-for="SubmitAction" type="submit" value="Agree" />
+        <input class="btn btn-link mr-2" asp-for="SubmitAction" type="submit" value="Cancel" />
     </div>
 </form>

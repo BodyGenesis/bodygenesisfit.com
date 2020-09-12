@@ -62,12 +62,11 @@
     const inputs = document.querySelectorAll("input[type='radio']");
     const quantitySection = document.getElementById("quantity");
 
-    quantitySection.classList.remove("d-none");
-    quantitySection.classList.add("d-none");
-
     inputs.forEach(input => {
         input.addEventListener("click", e => {
             continueButton.disabled = false;
+            quantitySection.classList.remove("d-none");
+            quantitySection.classList.add("d-none");
 
             const hasQuantityRates = (e.target.getAttribute("data-has-quantity-based-rates").toLowerCase() === "true");
 
