@@ -5,11 +5,13 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BodyGenesis.Core.UseCases;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BodyGenesis.Presentation.Website.Pages.Membership
 {
+    [Authorize("MembershipPolicy")]
     public class ReviewSignedAgreementModel : PageModel
     {
         private readonly IMediator _mediator;

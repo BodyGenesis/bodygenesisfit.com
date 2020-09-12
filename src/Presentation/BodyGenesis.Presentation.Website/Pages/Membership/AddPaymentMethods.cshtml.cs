@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using BodyGenesis.Core.Entities;
 using BodyGenesis.Core.UseCases;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 
 namespace BodyGenesis.Presentation.Website.Pages.Membership
 {
+    [Authorize("MembershipPolicy")]
     public class AddPaymentMethodsModel : PageModel
     {
         private readonly IMediator _mediator;

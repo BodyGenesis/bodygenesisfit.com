@@ -6,6 +6,7 @@ using BodyGenesis.Core.Services;
 using BodyGenesis.Core.UseCases;
 using BodyGenesis.Presentation.Website.Cms.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -17,6 +18,7 @@ using Piranha.Extend.Blocks;
 
 namespace BodyGenesis.Presentation.Website.Pages
 {
+    [Authorize("MembershipPolicy")]
     public class AgreementPageModel : SinglePage<AgreementPage>
     {
         private readonly IMediator _mediator;

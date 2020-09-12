@@ -10,9 +10,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using BodyGenesis.Core.Entities;
 using BodyGenesis.Core.UseCases;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BodyGenesis.Presentation.Website.Pages.Membership
 {
+    [Authorize("MembershipPolicy")]
     public class MyMembershipModel : PageModel
     {
         private readonly IMediator _mediator;
