@@ -31,7 +31,10 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
         public string CustomerEmail { get; set; }
 
         [BindProperty]
-        public DateTime CustomerDateOfBirth { get; set; }
+        public DateTime? CustomerDateOfBirth { get; set; }
+
+        [BindProperty]
+        public string CustomerPhoneNumber { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -48,6 +51,7 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
             CustomerDateOfBirth = Customer.DateOfBirth;
             CustomerEmail = Customer.EmailAddress;
             CustomerName = Customer.Name;
+            CustomerPhoneNumber = Customer.PhoneNumber;
 
             if (Customer.CurrentMembershipSubscription != null && !Customer.CurrentMembershipSubscription.AgreementSigned)
             {
@@ -73,6 +77,7 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
             Customer.Name = CustomerName;
             Customer.EmailAddress = CustomerEmail;
             Customer.DateOfBirth = CustomerDateOfBirth;
+            Customer.PhoneNumber = CustomerPhoneNumber;
 
             await _mediator.Send(new SaveCustomerRequest(Customer));
         }

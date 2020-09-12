@@ -59,7 +59,7 @@
                     <h5 class="card-title">Payment Method 1</h5>
                     <div class="form-group mb-2">
                         <label class="font-weight-bold" for="PaymentMethod1_Type">Type</label>
-                        <select class="form-control" asp-for="PaymentMethod1.Type" asp-items="Html.GetEnumSelectList<PaymentMethodType>()">
+                        <select class="form-control" asp-for="PaymentMethod1.Type" asp-items="Html.GetEnumSelectList<PaymentMethodType>()" required>
                             <option disabled hidden selected>Select a Payment Method Type</option>
                         </select>
                     </div>
@@ -83,7 +83,7 @@
                     <h5 class="card-title">Payment Method 2</h5>
                     <div class="form-group mb-2">
                         <label class="font-weight-bold" for="PaymentMethod2_Type">Type</label>
-                        <select class="form-control" asp-for="PaymentMethod2.Type" asp-items="Html.GetEnumSelectList<PaymentMethodType>()">
+                        <select class="form-control" asp-for="PaymentMethod2.Type" asp-items="Html.GetEnumSelectList<PaymentMethodType>()" required>
                             <option disabled hidden selected>Select a Payment Method Type</option>
                         </select>
                     </div>

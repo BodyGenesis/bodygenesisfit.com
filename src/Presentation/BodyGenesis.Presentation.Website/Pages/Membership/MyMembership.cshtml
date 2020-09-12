@@ -6,13 +6,13 @@
     <script>
         $("[data-toggle='tooltip']").tooltip();
     </script>
-} 
+}
 
 @{
     ViewData["Title"] = "My Membership";
 
     var membership = Model.Customer.CurrentMembershipSubscription;
-    var underage = Model.Customer.DateOfBirth.AddYears(16) > DateTime.Now;
+    var underage = Model.Customer.DateOfBirth?.AddYears(16) > DateTime.Now;
 }
 
 <form class="mb-4" method="post">
@@ -23,11 +23,19 @@
     </div>
 
     <div class="form-row">
-        <div class="col">
+        <div class="col-6">
 
             <div class="form-group">
                 <label for="CustomerName">Full Name</label>
-                <input asp-for="CustomerName" class="form-control" />
+                <input asp-for="CustomerName" class="form-control" required />
+            </div>
+
+        </div>
+        <div class="col-6">
+
+            <div class="form-group">
+                <label for="CustomerName">Phone Number</label>
+                <input asp-for="CustomerName" class="form-control" placeholder="(xxx) xxx-xxxx" required />
             </div>
 
         </div>
@@ -39,7 +47,7 @@
 
             <div class="form-group">
                 <label for="CustomerEmail">Email</label>
-                <input asp-for="CustomerEmail" class="form-control" />
+                <input asp-for="CustomerEmail" class="form-control" required />
             </div>
 
         </div>
@@ -48,7 +56,7 @@
 
             <div class="form-group">
                 <label for="CustomerDateOfBirth">Date of Birth</label>
-                <input asp-for="CustomerDateOfBirth" class="form-control" />
+                <input asp-for="CustomerDateOfBirth" class="form-control" type="date" required />
             </div>
 
         </div>
@@ -71,7 +79,18 @@
         <div class="form-row">
             <div class="col">
                 <div class="d-flex align-items-center justify-content-center">
-                    <span class="text-muted">Sorry, you must be 16 or older to start a new membership.</span>
+                    <span class="text-muted">Sorry, you must be 16 or older to start a new solo membership. Please ask your parent or guardian to add you to their membership!</span>
+                </div>
+            </div>
+        </div>
+    }
+
+    else if (!Model.Customer.CanStartMembership)
+    {
+        <div class="form-row">
+            <div class="col">
+                <div class="d-flex align-items-center justify-content-center">
+                    <span class="text-muted">Please provide your name, number, email, and date of birth above before starting a new membership.</span>
                 </div>
             </div>
         </div>
