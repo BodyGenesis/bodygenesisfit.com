@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -62,6 +62,14 @@ namespace BodyGenesis.Presentation.Website
                     {
                         dbOptions.UseNpgsql(_websiteOptions.ConnectionString);
                     });
+
+                    services.Configure<ForwardedHeadersOptions>(options =>
+                    {
+                        options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+
+                        options.KnownNetworks.Clear();
+                        options.KnownProxies.Clear();
+                    });
                 }
             });
 
@@ -105,6 +113,7 @@ namespace BodyGenesis.Presentation.Website
 
             else
             {
+                app.UseForwardedHeaders();
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
