@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+
+<html class="h-100" lang="en">
+<head>
+    <partial name="../Partials/_GlobalMetadata.cshtml" />
+
+    <title>@ViewBag.Title</title>
+
+    <partial name="../Partials/_GlobalStylesheets.cshtml" />
+    <link rel="stylesheet" href="~/css/cover.css" />
+</head>
+<body class="h-100">
+
+    <div class="background-container">
+        <div class="background-overlay">
+            <div class="content-container d-flex flex-column mx-auto p-3 text-center text-light">
+
+                <header class="d-flex justify-content-around mb-auto p-2">
+                    <nav>
+                        <ul class="nav">
+                            @foreach (var item in WebApp.Site.Sitemap.Where(i => !i.IsHidden && !i.Id.Equals(WebApp.PageId)))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="@item.Permalink">@item.MenuTitle</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                    <div>
+                        <img width="350" src="~/images/BodyGenesis_Logo_White_X500.png" />
+                    </div>
+                    <div>
+                        <vc:user-menu
+                    </div>
+                </header>
+
+                @RenderBody()
+
+                <footer class="d-flex justify-content-around mt-auto">
+                    <div>
+                        <p>Copyright &copy; @DateTime.Now.Year, BodyGenesis, LLC</p>
+                    </div>
+                </footer>
+
+            </div>
+        </div>
+    </div>
+
+    <partial name="../Partials/_GlobalScripts.cshtml" />
+</body>
+</html>

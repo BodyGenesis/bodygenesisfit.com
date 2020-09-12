@@ -1,0 +1,7 @@
+@model Piranha.Extend.Blocks.TextBlock
+
+<div class="block @Model.CssName() p-2">
+    <div class="container">
+        @Html.Raw(Model.Body)
+    </div>
+</div>

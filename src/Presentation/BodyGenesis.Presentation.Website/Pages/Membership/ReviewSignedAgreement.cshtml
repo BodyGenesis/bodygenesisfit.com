@@ -1,0 +1,17 @@
+﻿@page "/membership/review-signed-agreement"
+@model BodyGenesis.Presentation.Website.Pages.Membership.ReviewSignedAgreementModel
+@{ 
+    ViewData["Title"] = "Membership Agreement";
+}
+<header class="p-5 text-center">
+    <h1>Membership Agreement</h1>
+    <p>
+        The following is a copy of our membership agreement as of <strong>@Model.AgreementDate.ToShortDateString()</strong>, the date you signed it.
+    </p>
+</header>
+
+<main>
+    @{
+        WriteLiteral(Model.AgreementHtml);
+    }
+</main>

@@ -1,0 +1,75 @@
+﻿@page "/backoffice/customers/{customerId}"
+@model BodyGenesis.Presentation.Website.Pages.Backoffice.PendingCustomerModel
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    var subscription = Model.Customer.CurrentMembershipSubscription;
+}
+
+<div class="row my-2">
+    <div class="col">
+        <h3>@Model.Customer.Name</h3>
+    </div>
+</div>
+
+<div class="row my-2">
+    <div class="col-6">
+        @if (subscription == null)
+        {
+            <strong>No Membership Plan</strong>
+        }
+
+        else
+        {
+            <div class="form-row">
+                <div class="col">
+                    <strong>Membership Plan</strong><br />
+                    <span>@subscription.Plan.Name</span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col">
+                    <strong>Rate</strong><br />
+                    <span>$@subscription.Plan.GetRateForQuantity(subscription.Quantity) @subscription.Plan.BillingPeriod.ToDisplayText()</span>
+                </div>
+            </div>
+
+        }
+    </div>
+    <div class="col-6">
+        <ul class="list-group">
+            @foreach (var paymentMethod in Model.Customer.PaymentMethods)
+            {
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-around">
+                        <span>@paymentMethod.Type.ToString()</span>
+                        <span class="font-weight-bold">@paymentMethod.GetPlainTextAccountNumber(Configuration["BodyGenesis:Shared:EncryptionKey"])</span>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+@if (subscription != null)
+{
+    <div class="row my-2">
+        <div class="col">
+            <div class="d-flex justify-content-end">
+                <form method="post">
+                    <input asp-for="CustomerId" type="hidden" />
+
+                    @if (!subscription.Active && !subscription.CancellationCompleted)
+                    {
+                        <input class="btn btn-success ml-2" asp-for="SubmitAction" type="submit" value="Confirm Keyfob Pick-up" />
+                    }
+
+                    @if (subscription.CancellationRequested && !subscription.CancellationCompleted)
+                    {
+                        <input class="btn btn-danger ml-2" asp-for="SubmitAction" type="submit" value="Confirm Cancellation" />
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+}

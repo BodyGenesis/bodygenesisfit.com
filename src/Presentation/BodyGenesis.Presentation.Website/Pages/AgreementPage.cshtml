@@ -1,0 +1,24 @@
+﻿@page "/agreement-page"
+@model AgreementPageModel
+@{
+    ViewBag.Title = Model.Data.Title;
+}
+
+<header class="p-5 text-center">
+    <h1>@Model.Data.Title</h1>
+</header>
+
+<main>
+    @foreach (var block in Model.Data.Blocks)
+    {
+        Write(Html.DisplayFor(m => block, block.GetType().Name));
+    }
+</main>
+
+<div class="mt-4 d-flex justify-content-end">
+    <form method="post">
+        <input asp-for="PageId" type="hidden" value="@Model.Data.Id" />
+        <input class="btn btn-light mr-2" asp-for="SubmitAction" type="submit" value="Cancel" />
+        <input class="btn btn-primary" asp-for="SubmitAction" type="submit" value="Agree" />
+    </form>
+</div>

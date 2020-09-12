@@ -1,0 +1,70 @@
+﻿@page "/membership/payment-methods/add-initial"
+@model BodyGenesis.Presentation.Website.Pages.Membership.AddPaymentMethodsModel
+@{
+    ViewData["Title"] = "Payment Methods";
+}
+
+<form method="post">
+    <div class="form-row mb-4">
+        <div class="col">
+            <h3>Add Payment Methods</h3>
+        </div>
+    </div>
+    <div class="form-row mb-4">
+        <div class="col">
+            <p>
+                We require that you keep at least two payment methods on file with us to ensure your membership isn't unexpectedly cancelled due to non-payment.
+                Please add your first two here (you can add more later on the membership screen if you'd like).
+            </p>
+        </div>
+    </div>
+    <div class="form-row mb-4">
+        <div class="col">
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Payment Method 1</h5>
+                    <div class="form-group mb-2">
+                        <label class="font-weight-bold" for="PaymentMethod1_Type">Type</label>
+                        <select class="form-control" asp-for="PaymentMethod1.Type" asp-items="Html.GetEnumSelectList<PaymentMethodType>()">
+                            <option disabled hidden selected>Select a Payment Method Type</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label class="font-weight-bold" for="AccountNumber1">Account/Card Number</label>
+                        <input class="form-control" asp-for="AccountNumber1" type="text" />
+                    </div>
+                    <div class="form-group mb-2">
+                        <label class="font-weight-bold" for="PaymentMethod1_ExpirationDate">Expiration Date (for Credit Cards)</label>
+                        <input class="form-control" asp-for="PaymentMethod1.ExpirationDate" type="datetime-local" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Payment Method 2</h5>
+                    <div class="form-group mb-2">
+                        <label class="font-weight-bold" for="PaymentMethod2_Type">Type</label>
+                        <select class="form-control" asp-for="PaymentMethod2.Type" asp-items="Html.GetEnumSelectList<PaymentMethodType>()">
+                            <option disabled hidden selected>Select a Payment Method Type</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label class="font-weight-bold" for="AccountNumber2">Account/Card Number</label>
+                        <input class="form-control" asp-for="AccountNumber2" type="text" />
+                    </div>
+                    <div class="form-group mb-2">
+                        <label class="font-weight-bold" for="PaymentMethod2_ExpirationDate">Expiration Date (for Credit Cards)</label>
+                        <input class="form-control" asp-for="PaymentMethod2.ExpirationDate" type="datetime-local" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" type="submit">Continue</button>
+            </div>
+
+        </div>
+    </div>
+</form>

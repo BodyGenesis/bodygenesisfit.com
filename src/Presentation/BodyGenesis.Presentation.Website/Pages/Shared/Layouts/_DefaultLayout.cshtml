@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+
+<html class="h-100" lang="en">
+<head>
+    <partial name="../Partials/_GlobalMetadata.cshtml" />
+    @RenderSection("metadata", required: false)
+
+    <title>@(ViewBag.Title ?? ViewData["Title"])</title>
+
+    <partial name="../Partials/_GlobalStylesheets.cshtml" />
+</head>
+<body class="d-flex flex-column h-100">
+
+    <nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                @foreach (var item in WebApp.Site.Sitemap.Where(i => !i.IsHidden))
+                {
+                    <li class="nav-item@(item.Id.Equals(WebApp.PageId) ? " active" : "")">
+                        <a class="nav-link" href="@item.Permalink">@item.MenuTitle</a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="flex-grow-1">
+            <img src="~/images/BodyGenesis_Logo_White_X500.png" />
+        </div>
+
+        <div class="ml-2">
+            <vc:user-menu></vc:user-menu>
+        </div>
+
+    </nav>
+
+    <div class="container p-1">
+        @if (ViewData.ContainsKey("ErrorMessage"))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewData["ErrorMessage"]
+            </div>
+        }
+        <div class="pt-1">
+            @RenderBody()
+        </div>
+    </div>
+
+    <footer class="d-flex justify-content-around mt-auto">
+        <div>
+            <p>Copyright &copy; @DateTime.Now.Year, BodyGenesis, LLC</p>
+        </div>
+    </footer>
+
+    <partial name="../Partials/_GlobalScripts.cshtml" />
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

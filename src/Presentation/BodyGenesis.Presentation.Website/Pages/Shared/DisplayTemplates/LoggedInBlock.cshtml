@@ -1,0 +1,13 @@
+@model BodyGenesis.Presentation.Website.Cms.Blocks.LoggedInBlock
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="block @Model.CssName() p-2">
+        <div class="container">
+            @for (var n = 0; n < Model.Items.Count; n++)
+            {
+                Write(Html.DisplayFor(m => Model.Items[n], Model.Items[n].GetType().Name));
+            }
+        </div>
+    </div>
+}

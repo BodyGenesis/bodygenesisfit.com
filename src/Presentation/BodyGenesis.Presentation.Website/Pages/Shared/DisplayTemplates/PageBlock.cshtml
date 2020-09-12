@@ -1,0 +1,22 @@
+@model Piranha.Extend.Blocks.PageBlock
+
+@if (Model.Body.Page != null)
+{
+    <div class="block @Model.CssName() p-2">
+        <div class="container">
+            <div class="card">
+                @if (Model.Body.Page.PrimaryImage.HasValue)
+                {
+                    <a href="@Model.Body.Page.Permalink">
+                        <img class="card-img-top" src="@Url.Content(WebApp.Media.ResizeImage(Model.Body.Page.PrimaryImage, 540, 200))">
+                    </a>
+                }
+                <div class="card-body">
+                    <h5>@Model.Body.Page.Title</h5>
+                    <p>@Html.Raw(Model.Body.Page.Excerpt)</p>
+                    <a href="@Model.Body.Page.Permalink" class="btn btn-sm btn-primary">Read more</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}

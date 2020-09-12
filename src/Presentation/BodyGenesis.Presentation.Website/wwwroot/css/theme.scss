@@ -1,0 +1,10 @@
+﻿$theme-colors: (
+    "primary": #FC0,
+    "secondary": grey
+);
+
+$border-radius: 2px;
+$border-radius-lg: 2px;
+$border-radius-sm: 2px;
+
+@import "../lib/bootstrap/scss/bootstrap";

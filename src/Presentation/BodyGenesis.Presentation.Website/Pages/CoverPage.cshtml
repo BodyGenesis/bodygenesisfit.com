@@ -1,0 +1,22 @@
+﻿@page "/cover-page"
+@model SinglePage<CoverPage>
+@{
+    Layout = "Shared/Layouts/_CoverPageLayout.cshtml";
+    ViewBag.Title = Model.Data.Title;
+}
+
+@if (Model.Data.PrimaryImage.Media != null)
+{
+    <style>
+        .background-container {
+            background-image: url('@Html.Raw(Url.Content(Model.Data.PrimaryImage.Media.PublicUrl))');
+        }
+    </style>
+}
+
+<main class="d-flex flex-column align-items-center" role="main">
+    @foreach (var block in Model.Data.Blocks)
+    {
+        Write(Html.DisplayFor(m => block, block.GetType().Name));
+    }
+</main>
