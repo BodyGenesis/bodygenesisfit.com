@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using BodyGenesis.Core.Entities;
 using BodyGenesis.Core.UseCases;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BodyGenesis.Presentation.Website.Pages.Membership
 {
@@ -24,19 +25,68 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
             _mediator = mediator;
         }
 
-        public Customer Customer { get; private set; }
-
         [BindProperty]
-        public string CustomerName { get; set; }
+        public Customer Customer { get; set; }
 
-        [BindProperty]
-        public string CustomerEmail { get; set; }
+        public IEnumerable<SelectListItem> StateOptions => new string[]
+        {
+            "Alabama",
+            "Alaska",
+            "Arizona",
+            "Arkansas",
+            "California",
+            "Colorado",
+            "Connecticut",
+            "Delaware",
+            "Florida",
+            "Georgia",
+            "Hawaii",
+            "Idaho",
+            "Illinois",
+            "Indiana",
+            "Iowa",
+            "Kansas",
+            "Kentucky",
+            "Louisiana",
+            "Maine",
+            "Maryland",
+            "Massachusetts",
+            "Michigan",
+            "Minnesota",
+            "Mississippi",
+            "Missouri",
+            "Montana",
+            "Nebraska",
+            "Nevada",
+            "New Hampshire",
+            "New Jersey",
+            "New Mexico",
+            "New York",
+            "North Carolina",
+            "North Dakota",
+            "Ohio",
+            "Oklahoma",
+            "Oregon",
+            "Pennsylvania",
+            "Rhode Island",
+            "South Carolina",
+            "South Dakota",
+            "Tennessee",
+            "Texas",
+            "Utah",
+            "Vermont",
+            "Virginia",
+            "Washington",
+            "West Virginia",
+            "Wisconsin",
+            "Wyoming"
+        }.Select(s => new SelectListItem(s, s));
 
-        [BindProperty]
-        public DateTime? CustomerDateOfBirth { get; set; }
-
-        [BindProperty]
-        public string CustomerPhoneNumber { get; set; }
+        public IEnumerable<SelectListItem> PreferredLocationOptions => new string[]
+        {
+            "Saxonburg",
+            "New Castle/Shenango"
+        }.Select(s => new SelectListItem(s, s));
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -50,10 +100,6 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
             }
 
             Customer = result.Value;
-            CustomerDateOfBirth = Customer.DateOfBirth;
-            CustomerEmail = Customer.EmailAddress;
-            CustomerName = Customer.Name;
-            CustomerPhoneNumber = Customer.PhoneNumber;
 
             if (Customer.CurrentMembershipSubscription != null && !Customer.CurrentMembershipSubscription.AgreementSigned)
             {
@@ -74,14 +120,19 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
                 ViewData["ErrorMessage"] = result.Message;
             }
 
-            Customer = result.Value;
+            var customer = result.Value;
 
-            Customer.Name = CustomerName;
-            Customer.EmailAddress = CustomerEmail;
-            Customer.DateOfBirth = CustomerDateOfBirth;
-            Customer.PhoneNumber = CustomerPhoneNumber;
+            customer.Name = Customer.Name;
+            customer.EmailAddress = Customer.EmailAddress;
+            customer.DateOfBirth = Customer.DateOfBirth;
+            customer.PhoneNumber = Customer.PhoneNumber;
+            customer.Address = Customer.Address;
+            customer.City = Customer.City;
+            customer.State = Customer.State;
+            customer.ZipCode = Customer.ZipCode;
+            customer.PreferredLocation = Customer.PreferredLocation;
 
-            await _mediator.Send(new SaveCustomerRequest(Customer));
+            await _mediator.Send(new SaveCustomerRequest(customer));
         }
     }
 }

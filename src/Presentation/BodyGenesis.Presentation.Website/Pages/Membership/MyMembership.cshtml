@@ -26,16 +26,18 @@
         <div class="col-6">
 
             <div class="form-group">
-                <label for="CustomerName">Full Name</label>
-                <input asp-for="CustomerName" class="form-control" required />
+                <label for="Customer_Name">Full Name</label>
+                <input asp-for="Customer.Name" class="form-control" required />
             </div>
 
         </div>
         <div class="col-6">
 
             <div class="form-group">
-                <label for="CustomerPhoneNumber">Phone Number</label>
-                <input asp-for="CustomerPhoneNumber" class="form-control" placeholder="(xxx) xxx-xxxx" required />
+                <label for="Customer_PreferredLocation">Preferred Location</label>
+                <select asp-for="Customer.PreferredLocation" asp-items="Model.PreferredLocationOptions" class="form-control" required>
+                    <option disabled hidden selected>Select your Preferred Location</option>
+                </select>
             </div>
 
         </div>
@@ -46,8 +48,8 @@
         <div class="col-6">
 
             <div class="form-group">
-                <label for="CustomerEmail">Email</label>
-                <input asp-for="CustomerEmail" class="form-control" required />
+                <label for="Customer_EmailAddress">Email</label>
+                <input asp-for="Customer.EmailAddress" class="form-control" type="email" required />
             </div>
 
         </div>
@@ -55,8 +57,63 @@
         <div class="col-6">
 
             <div class="form-group">
-                <label for="CustomerDateOfBirth">Date of Birth</label>
-                <input asp-for="CustomerDateOfBirth" class="form-control" type="date" required />
+                <label for="Customer_DateOfBirth">Date of Birth</label>
+                <input asp-for="Customer.DateOfBirth" class="form-control" type="date" required />
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="form-row">
+
+        <div class="col-6">
+
+            <div class="form-group">
+                <label for="Customer_PhoneNumber">Phone Number</label>
+                <input asp-for="Customer.PhoneNumber" class="form-control" placeholder="(xxx) xxx-xxxx" required />
+            </div>
+
+        </div>
+
+        <div class="col-6">
+
+            <div class="form-group">
+                <label for="Customer_Address">Address</label>
+                <input asp-for="Customer.Address" class="form-control" required />
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="form-row">
+
+        <div class="col-4">
+
+            <div class="form-group">
+                <label for="Customer_City">City</label>
+                <input asp-for="Customer.City" class="form-control" required />
+            </div>
+
+        </div>
+
+        <div class="col-4">
+
+            <div class="form-group">
+                <label for="Customer_State">State</label>
+                <select asp-for="Customer.State" asp-items="Model.StateOptions" class="form-control" value="Pennsylvania" required>
+                    <option disabled hidden selected>Select a State</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="col-4">
+
+            <div class="form-group">
+                <label for="Customer_ZipCode">Zip Code</label>
+                <input asp-for="Customer.ZipCode" class="form-control" required />
             </div>
 
         </div>
@@ -90,7 +147,7 @@
         <div class="form-row">
             <div class="col">
                 <div class="d-flex align-items-center justify-content-center">
-                    <span class="text-muted">Please provide your name, number, email, and date of birth above before starting a new membership.</span>
+                    <span class="font-weight-bold">Please complete your profile above before starting a new membership.</span>
                 </div>
             </div>
         </div>

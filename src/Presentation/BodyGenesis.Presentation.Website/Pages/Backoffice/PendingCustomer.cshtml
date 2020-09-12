@@ -2,6 +2,7 @@
 @model BodyGenesis.Presentation.Website.Pages.Backoffice.PendingCustomerModel
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @{
+    var customer = Model.Customer;
     var subscription = Model.Customer.CurrentMembershipSubscription;
 }
 
@@ -15,26 +16,58 @@
     <div class="col-6">
         @if (subscription == null)
         {
-            <strong>No Membership Plan</strong>
+            <div class="row mb-2">
+                <div class="col">
+                    <strong>No Membership Plan</strong>
+                </div>
+            </div>
         }
 
         else
         {
-            <div class="form-row">
+            <div class="row mb-2">
                 <div class="col">
                     <strong>Membership Plan</strong><br />
                     <span>@subscription.Plan.Name</span>
                 </div>
             </div>
 
-            <div class="form-row">
+            <div class="row mb-2">
                 <div class="col">
                     <strong>Rate</strong><br />
                     <span>$@subscription.Plan.GetRateForQuantity(subscription.Quantity) @subscription.Plan.BillingPeriod.ToDisplayText()</span>
                 </div>
             </div>
-
         }
+
+        <div class="row mb-2">
+            <div class="col">
+                <strong>Preferred Location</strong><br />
+                <span>@customer.PreferredLocation</span>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col">
+                <strong>Email Address</strong><br />
+                <span>@customer.EmailAddress</span>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col">
+                <strong>Phone Number</strong><br />
+                <span>@customer.PhoneNumber</span>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col">
+                <strong>Address</strong><br />
+                <span>@customer.Address, @customer.City, @customer.State, @customer.ZipCode</span>
+            </div>
+        </div>
+
     </div>
     <div class="col-6">
         <div class="d-flex flex-column">
