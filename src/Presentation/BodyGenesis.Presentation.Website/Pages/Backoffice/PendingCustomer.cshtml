@@ -37,17 +37,40 @@
         }
     </div>
     <div class="col-6">
-        <ul class="list-group">
+        <div class="d-flex flex-column">
             @foreach (var paymentMethod in Model.Customer.PaymentMethods)
             {
-                <li class="list-group-item">
-                    <div class="d-flex justify-content-around">
-                        <span>@paymentMethod.Type.ToString()</span>
-                        <span class="font-weight-bold">@paymentMethod.GetPlainTextAccountNumber(Configuration["BodyGenesis:Shared:EncryptionKey"])</span>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">@paymentMethod.Type.ToString()</h5>
                     </div>
-                </li>
+                    <ul class="list-group list-group-flush">
+
+                        @if (paymentMethod.Type == PaymentMethodType.BankAccount)
+                        {
+                            <li class="list-group-item">
+                                <h6>Routing Number</h6>
+                                <span>@paymentMethod.RoutingNumber</span>
+                            </li>
+                        }
+
+                        <li class="list-group-item">
+                            <h6>Account Number</h6>
+                            <span>@paymentMethod.GetPlainTextAccountNumber(Configuration["BodyGenesis:Shared:EncryptionKey"])</span>
+                        </li>
+
+                        @if (paymentMethod.Type == PaymentMethodType.CreditCard)
+                        {
+                            <li class="list-group-item">
+                                <h6>Expiration</h6>
+                                <span>@paymentMethod.ExpirationDate.Value.ToString("MMMM yyyy")</span>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
             }
-        </ul>
+        </div>
     </div>
 </div>
 

@@ -4,6 +4,39 @@
     ViewData["Title"] = "Payment Methods";
 }
 
+@section scripts {
+<script>
+    for (let i = 1; i < 3; i++) {
+        document.getElementById(`PaymentMethod${i}_Type`).addEventListener("change", e => {
+            const type = Number.parseInt(e.target.value);
+            const routingNumber = document.getElementById(`routing_number_${i}`);
+            const accountNumber = document.getElementById(`account_number_${i}`);
+            const expirationDate = document.getElementById(`expiration_date_${i}`);
+
+            routingNumber.classList.remove("d-none");
+            routingNumber.classList.add("d-none");
+            routingNumber.querySelector("input").required = false;
+
+            expirationDate.classList.remove("d-none");
+            expirationDate.classList.add("d-none");
+            expirationDate.querySelector("input").required = false;
+
+            if (type == 0) {
+                accountNumber.querySelector("label").innerText = "Account Number";
+                routingNumber.classList.remove("d-none");
+                routingNumber.querySelector("input").required = true;
+            }
+
+            else if (type == 1) {
+                accountNumber.querySelector("label").innerText = "Card Number";
+                expirationDate.classList.remove("d-none");
+                expirationDate.querySelector("input").required = true;
+            }
+        });
+    }
+</script>
+}
+
 <form method="post">
     <div class="form-row mb-4">
         <div class="col">
@@ -30,13 +63,17 @@
                             <option disabled hidden selected>Select a Payment Method Type</option>
                         </select>
                     </div>
-                    <div class="form-group mb-2">
-                        <label class="font-weight-bold" for="AccountNumber1">Account/Card Number</label>
-                        <input class="form-control" asp-for="AccountNumber1" type="text" />
+                    <div id="routing_number_1" class="form-group mb-2 d-none">
+                        <label class="font-weight-bold" for="PaymentMethod1_RoutingNumber">Routing Number</label>
+                        <input class="form-control" asp-for="PaymentMethod1.RoutingNumber" type="text" />
                     </div>
-                    <div class="form-group mb-2">
-                        <label class="font-weight-bold" for="PaymentMethod1_ExpirationDate">Expiration Date (for Credit Cards)</label>
-                        <input class="form-control" asp-for="PaymentMethod1.ExpirationDate" type="datetime-local" />
+                    <div id="account_number_1" class="form-group mb-2">
+                        <label class="font-weight-bold" for="AccountNumber1">Account Number</label>
+                        <input class="form-control" asp-for="AccountNumber1" type="text" required />
+                    </div>
+                    <div id="expiration_date_1" class="form-group mb-2 d-none">
+                        <label class="font-weight-bold" for="PaymentMethod1_ExpirationDate">Expiration Date</label>
+                        <input class="form-control" asp-for="PaymentMethod1.ExpirationDate" type="month" />
                     </div>
                 </div>
             </div>
@@ -50,13 +87,17 @@
                             <option disabled hidden selected>Select a Payment Method Type</option>
                         </select>
                     </div>
-                    <div class="form-group mb-2">
-                        <label class="font-weight-bold" for="AccountNumber2">Account/Card Number</label>
-                        <input class="form-control" asp-for="AccountNumber2" type="text" />
+                    <div id="routing_number_2" class="form-group mb-2 d-none">
+                        <label class="font-weight-bold" for="PaymentMethod2_RoutingNumber">Routing Number</label>
+                        <input class="form-control" asp-for="PaymentMethod2.RoutingNumber" type="text" />
                     </div>
-                    <div class="form-group mb-2">
-                        <label class="font-weight-bold" for="PaymentMethod2_ExpirationDate">Expiration Date (for Credit Cards)</label>
-                        <input class="form-control" asp-for="PaymentMethod2.ExpirationDate" type="datetime-local" />
+                    <div id="account_number_2" class="form-group mb-2">
+                        <label class="font-weight-bold" for="AccountNumber2">Account Number</label>
+                        <input class="form-control" asp-for="AccountNumber2" type="text" required />
+                    </div>
+                    <div id="expiration_date_2" class="form-group mb-2 d-none">
+                        <label class="font-weight-bold" for="PaymentMethod2_ExpirationDate">Expiration Date</label>
+                        <input class="form-control" asp-for="PaymentMethod2.ExpirationDate" type="month" />
                     </div>
                 </div>
             </div>

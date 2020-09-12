@@ -15,6 +15,7 @@ namespace BodyGenesis.Core.Entities
         public byte[] AccountNumberIV { get; set; }
         public byte[] EncryptedAccountNumber { get; set; }
         public string NameOnCard { get; set; } = string.Empty;
+        public string RoutingNumber { get; set; } = string.Empty;
 
         public string GetPlainTextAccountNumber(string key)
         {

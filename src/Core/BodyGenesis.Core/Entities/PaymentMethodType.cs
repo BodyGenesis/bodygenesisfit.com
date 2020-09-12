@@ -5,12 +5,12 @@ namespace BodyGenesis.Core.Entities
     public enum PaymentMethodType
     {
         [Description("Bank Account")]
-        BankAccount,
+        BankAccount = 0,
 
         [Description("Credit Card")]
-        CreditCard,
+        CreditCard = 1,
 
         [Description("Gift Card")]
-        GiftCard
+        GiftCard = 2
     }
 }
