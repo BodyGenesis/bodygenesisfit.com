@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Amberglass;
 using MediatR;
 using Piranha;
 using Piranha.AttributeBuilder;
@@ -42,6 +41,8 @@ namespace BodyGenesis.Presentation.Website
             services.AddPiranha(options =>
             {
                 options.AddRazorRuntimeCompilation = _webHostEnvironment.IsDevelopment();
+
+                options.UseFileStorage();
                 options.UseImageSharp();
                 options.UseManager();
                 options.UseTinyMCE();
@@ -49,7 +50,6 @@ namespace BodyGenesis.Presentation.Website
 
                 if (_webHostEnvironment.IsDevelopment())
                 {
-                    options.UseFileStorage();
                     options.UseEF<SQLiteDb>(dbOptions =>
                     {
                         dbOptions.UseSqlite(_websiteOptions.ConnectionString);
@@ -58,7 +58,6 @@ namespace BodyGenesis.Presentation.Website
 
                 else
                 {
-                    options.UseFileStorage(_websiteOptions.FileStorage.Key, _websiteOptions.FileStorage.Secret, _websiteOptions.FileStorage.Bucket, _websiteOptions.FileStorage.Region, _websiteOptions.FileStorage.Endpoint);
                     options.UseEF<PostgreSqlDb>(dbOptions =>
                     {
                         dbOptions.UseNpgsql(_websiteOptions.ConnectionString);
