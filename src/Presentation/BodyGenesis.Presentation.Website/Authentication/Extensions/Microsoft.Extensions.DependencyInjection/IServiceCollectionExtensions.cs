@@ -29,6 +29,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 })
                 .AddCookie(options =>
                 {
+                    options.LoginPath = new PathString("/oauth/login");
+                    options.AccessDeniedPath = new PathString("/oauth/login");
+                    options.LogoutPath = new PathString("/oauth/logout");
                     options.Cookie.SameSite = SameSiteMode.None;
                     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 })
