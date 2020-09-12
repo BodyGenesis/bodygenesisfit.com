@@ -6,18 +6,19 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using Amberglass;
 using MediatR;
 using Piranha;
 using Piranha.AttributeBuilder;
 using Piranha.Data.EF.PostgreSql;
 using Piranha.Manager.Editor;
+using Piranha.Services;
 
 using BodyGenesis.Core;
 using BodyGenesis.Presentation.Website.Cms.Blocks;
 using Microsoft.Extensions.Options;
 using Piranha.Data.EF.SQLite;
 using BodyGenesis.Core.UseCases;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace BodyGenesis.Presentation.Website
 {
@@ -25,13 +26,13 @@ namespace BodyGenesis.Presentation.Website
     {
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IOptions<WebsiteOptions> _websiteOptions;
+        private readonly WebsiteOptions _websiteOptions;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _configuration = configuration;
             _webHostEnvironment = webHostEnvironment;
-            _websiteOptions = Options.Create(configuration.GetSection("BodyGenesis:Presentation:Website").Get<WebsiteOptions>());
+            _websiteOptions = configuration.GetSection("BodyGenesis:Presentation:Website").Get<WebsiteOptions>();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -41,8 +42,6 @@ namespace BodyGenesis.Presentation.Website
             services.AddPiranha(options =>
             {
                 options.AddRazorRuntimeCompilation = _webHostEnvironment.IsDevelopment();
-
-                options.UseFileStorage();
                 options.UseImageSharp();
                 options.UseManager();
                 options.UseTinyMCE();
@@ -50,17 +49,19 @@ namespace BodyGenesis.Presentation.Website
 
                 if (_webHostEnvironment.IsDevelopment())
                 {
+                    options.UseFileStorage();
                     options.UseEF<SQLiteDb>(dbOptions =>
                     {
-                        dbOptions.UseSqlite(_websiteOptions.Value.ConnectionString);
+                        dbOptions.UseSqlite(_websiteOptions.ConnectionString);
                     });
                 }
 
                 else
                 {
+                    options.UseFileStorage(_websiteOptions.FileStorage.Key, _websiteOptions.FileStorage.Secret, _websiteOptions.FileStorage.Bucket, _websiteOptions.FileStorage.Region, _websiteOptions.FileStorage.Endpoint);
                     options.UseEF<PostgreSqlDb>(dbOptions =>
                     {
-                        dbOptions.UseNpgsql(_websiteOptions.Value.ConnectionString);
+                        dbOptions.UseNpgsql(_websiteOptions.ConnectionString);
                     });
                 }
             });
