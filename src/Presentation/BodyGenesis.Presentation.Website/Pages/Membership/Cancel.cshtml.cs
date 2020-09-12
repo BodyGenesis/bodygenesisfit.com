@@ -10,6 +10,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Options;
 using Piranha.AspNetCore.Services;
 
 namespace BodyGenesis.Presentation.Website.Pages.Membership
@@ -19,11 +20,13 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
     {
         private readonly IMediator _mediator;
         private readonly IEmailSender _emailSender;
+        private readonly IOptions<WebsiteOptions> _websiteOptions;
 
-        public CancelModel(IMediator mediator, IEmailSender emailSender)
+        public CancelModel(IMediator mediator, IEmailSender emailSender, IOptions<WebsiteOptions> websiteOptions)
         {
             _mediator = mediator;
             _emailSender = emailSender;
+            _websiteOptions = websiteOptions;
         }
 
         public Customer Customer { get; private set; }
@@ -65,7 +68,7 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
             Customer.CurrentMembershipSubscription.RequestCancellation();
 
             await _mediator.Send(new SaveCustomerRequest(Customer));
-            await _emailSender.Send(new string[] { "josh.johnson@leafyacre.com" }, "Cancellation Request", $"<a href=\"https://{HttpContext.Request.Host}/backoffice/customers/{Customer.Id}\">Click Here to View Customer Record</a>");
+            await _emailSender.Send(_websiteOptions.Value.EmailRecipients, "Cancellation Request", $"<a href=\"https://{HttpContext.Request.Host}/backoffice/customers/{Customer.Id}\">Click Here to View Customer Record</a>");
 
 
             return Redirect("/membership");

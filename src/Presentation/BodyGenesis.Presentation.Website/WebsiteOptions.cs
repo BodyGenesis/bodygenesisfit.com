@@ -1,9 +1,12 @@
-﻿namespace BodyGenesis.Presentation.Website
+﻿using System;
+
+namespace BodyGenesis.Presentation.Website
 {
     public class WebsiteOptions
     {
         public string ConnectionString { get; set; } = string.Empty;
         public FileStorageOptions FileStorage { get; set; } = new FileStorageOptions();
+        public string[] EmailRecipients { get; set; } = Array.Empty<string>();
 
         public class FileStorageOptions
         {

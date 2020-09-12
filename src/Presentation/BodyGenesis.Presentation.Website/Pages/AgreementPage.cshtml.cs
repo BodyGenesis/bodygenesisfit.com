@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Options;
 using Piranha;
 using Piranha.AspNetCore.Models;
 using Piranha.AspNetCore.Services;
@@ -24,12 +25,14 @@ namespace BodyGenesis.Presentation.Website.Pages
     {
         private readonly IMediator _mediator;
         private readonly IEmailSender _emailSender;
+        private readonly IOptions<WebsiteOptions> _websiteOptions;
 
-        public AgreementPageModel(IApi api, IModelLoader modelLoader, IMediator mediator, IEmailSender emailSender)
+        public AgreementPageModel(IApi api, IModelLoader modelLoader, IMediator mediator, IEmailSender emailSender, IOptions<WebsiteOptions> websiteOptions)
             : base(api, modelLoader)
         {
             _mediator = mediator;
             _emailSender = emailSender;
+            _websiteOptions = websiteOptions;
         }
 
         [BindProperty]
@@ -69,7 +72,7 @@ namespace BodyGenesis.Presentation.Website.Pages
 
                 customer.CurrentMembershipSubscription.SignAgreement(agreementData, Signer);
 
-                await _emailSender.Send(new string[] { "josh.johnson@leafyacre.com" }, "New BodyGenesis Membership", $"<a href=\"https://{HttpContext.Request.Host}/backoffice/customers/{customer.Id}\">Click Here to View Customer Record</a>");
+                await _emailSender.Send(_websiteOptions.Value.EmailRecipients, "New BodyGenesis Membership", $"<a href=\"https://{HttpContext.Request.Host}/backoffice/customers/{customer.Id}\">Click Here to View Customer Record</a>");
             }
 
             else
