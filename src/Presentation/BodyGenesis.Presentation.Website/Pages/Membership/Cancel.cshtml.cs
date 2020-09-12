@@ -68,7 +68,7 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
             Customer.CurrentMembershipSubscription.RequestCancellation();
 
             await _mediator.Send(new SaveCustomerRequest(Customer));
-            await _emailSender.Send(_websiteOptions.Value.EmailRecipients, "Cancellation Request", $"<a href=\"https://{HttpContext.Request.Host}/backoffice/customers/{Customer.Id}\">Click Here to View Customer Record</a>");
+            await _emailSender.Send(_websiteOptions.Value.EmailRecipients, $"Cancellation Request: {Customer.Name}", $"<a href=\"https://{HttpContext.Request.Host}/backoffice/customers/{Customer.Id}\">Click Here to View Customer Record</a>");
 
 
             return Redirect("/membership");
