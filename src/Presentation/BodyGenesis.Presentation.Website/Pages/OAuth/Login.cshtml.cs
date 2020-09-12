@@ -9,7 +9,7 @@ namespace BodyGenesis.Presentation.Website.Pages.OAuth
     {
         public async Task OnGetAsync()
         {
-            var redirectUri = HttpContext.Request.Query["redirectUri"];
+            var redirectUri = HttpContext.Request.Query["returnUrl"];
 
             if (string.IsNullOrWhiteSpace(redirectUri))
             {
