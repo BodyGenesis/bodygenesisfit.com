@@ -15,22 +15,24 @@
         <div class="background-overlay">
             <div class="content-container d-flex flex-column mx-auto p-3 text-center text-light">
 
-                <header class="d-flex justify-content-around mb-auto p-2">
-                    <nav>
-                        <ul class="nav">
-                            @foreach (var item in WebApp.Site.Sitemap.Where(i => !i.IsHidden && !i.Id.Equals(WebApp.PageId)))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" href="@item.Permalink">@item.MenuTitle</a>
-                                </li>
-                            }
-                        </ul>
-                    </nav>
-                    <div>
-                        <img width="350" src="~/images/BodyGenesis_Logo_White_X500.png" />
-                    </div>
-                    <div>
-                        <vc:user-menu
+                <header class="container-fluid mb-auto p-2">
+                    <div class="row">
+                        <nav class="col-4">
+                            <ul class="nav">
+                                @foreach (var item in WebApp.Site.Sitemap.Where(i => !i.IsHidden && !i.Id.Equals(WebApp.PageId)))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" href="@item.Permalink">@item.MenuTitle</a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                        <div class="col-4">
+                            <img width="350" src="~/images/BodyGenesis_Logo_White_X500.png" />
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <vc:user-menu></vc:user-menu>
+                        </div>
                     </div>
                 </header>
 

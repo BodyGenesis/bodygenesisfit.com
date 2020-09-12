@@ -11,31 +11,26 @@
 </head>
 <body class="d-flex flex-column h-100">
 
-    <nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark">
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                @foreach (var item in WebApp.Site.Sitemap.Where(i => !i.IsHidden))
-                {
-                    <li class="nav-item@(item.Id.Equals(WebApp.PageId) ? " active" : "")">
-                        <a class="nav-link" href="@item.Permalink">@item.MenuTitle</a>
-                    </li>
-                }
-            </ul>
+    <div class="container-fluid bg-dark sticky-top p-3">
+        <div class="row">
+            <div class="col-4 d-flex align-items-center">
+                <ul class="nav">
+                    @foreach (var item in WebApp.Site.Sitemap.Where(i => !i.IsHidden))
+                    {
+                        <li class="nav-item@(item.Id.Equals(WebApp.PageId) ? " active" : "")">
+                            <a class="nav-link" href="@item.Permalink">@item.MenuTitle</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-4 d-flex justify-content-center">
+                <img src="~/images/BodyGenesis_Logo_White_X500.png" />
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <vc:user-menu></vc:user-menu>
+            </div>
         </div>
-
-        <div class="flex-grow-1">
-            <img src="~/images/BodyGenesis_Logo_White_X500.png" />
-        </div>
-
-        <div class="ml-2">
-            <vc:user-menu></vc:user-menu>
-        </div>
-
-    </nav>
+    </div>
 
     <div class="container p-1">
         @if (ViewData.ContainsKey("ErrorMessage"))
