@@ -35,7 +35,7 @@ namespace BodyGenesis.Core.Entities
 
             else if (match.ApplicationStrategy == RateApplicationStrategy.MultiplyWithBaseRate)
             {
-                return (match.BaseRate + (match.Rate * quantity));
+                return (match.BaseRate + (match.Rate * (quantity - (match.Quantity - 1))));
             }
 
             return match.Rate;
@@ -58,6 +58,9 @@ namespace BodyGenesis.Core.Entities
 
             /// <summary>
             /// Rate is calculated by multiplying the quantity rate by the quantity and adding the quantity base rate.
+            /// The provided quantity has the rate's quantity, minus one, subtracted from it.
+            /// As an example, the rate is set up with a quantity of 4, base rate of 75, and a rate of 10.
+            /// If GetRateForQuantity is called with a quantity of 5, the base rate has 20 added to it because we subtract 1 from 4, then subtract the result (3) from the provided quantity (5).
             /// </summary>
             MultiplyWithBaseRate,
 
