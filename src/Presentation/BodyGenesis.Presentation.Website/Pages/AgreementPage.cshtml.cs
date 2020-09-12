@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BodyGenesis.Core.Entities;
 using BodyGenesis.Core.Services;
 using BodyGenesis.Core.UseCases;
 using BodyGenesis.Presentation.Website.Cms.Models;
@@ -37,6 +38,9 @@ namespace BodyGenesis.Presentation.Website.Pages
         [BindProperty]
         public string SubmitAction { get; set; }
 
+        [BindProperty]
+        public string Signer { get; set; }
+
         public async Task<IActionResult> OnPostAsync()
         {
             var auth0UserId = User.FindFirstValue("sub");
@@ -57,10 +61,13 @@ namespace BodyGenesis.Presentation.Website.Pages
 
             if (SubmitAction.Equals("agree", StringComparison.OrdinalIgnoreCase))
             {
+                var membership = customer.CurrentMembershipSubscription;
                 var page = await _api.Pages.GetByIdAsync<AgreementPage>(PageId);
                 var agreementData = page.Blocks.Aggregate(string.Empty, (previous, block) => $"{previous}<br />{_ExtractBlockText(block)}");
 
-                customer.CurrentMembershipSubscription.SignAgreement(agreementData);
+                agreementData = string.Concat($"<strong>Membership Plan:</strong>&nbsp;{membership.Plan.Name}<br /><strong>Rate:</strong>&nbsp;${membership.Plan.GetRateForQuantity(membership.Quantity)} {membership.Plan.BillingPeriod.ToDisplayText()}<br />", agreementData);
+
+                customer.CurrentMembershipSubscription.SignAgreement(agreementData, Signer);
 
                 await _emailSender.Send(new string[] { "josh.johnson@leafyacre.com" }, "New BodyGenesis Membership", $"<a href=\"https://{HttpContext.Request.Host}/backoffice/customers/{customer.Id}\">Click Here to View Customer Record</a>");
             }

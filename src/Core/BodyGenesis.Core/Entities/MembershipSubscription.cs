@@ -13,6 +13,7 @@ namespace BodyGenesis.Core.Entities
         public DateTime? CancellationRequestedDate { get; set; }
         public string AgreementData { get; set; } = string.Empty;
         public bool AgreementSigned { get; set; }
+        public string AgreementSignedBy { get; set; } = string.Empty;
         public DateTime? DateAgreementSigned { get; set; }
         public bool CancellationCompleted { get; set; }
 
@@ -59,10 +60,11 @@ namespace BodyGenesis.Core.Entities
             CancellationRequestedDate = DateTime.Now;
         }
 
-        public void SignAgreement(string agreementData)
+        public void SignAgreement(string agreementData, string signer)
         {
             AgreementData = agreementData;
             AgreementSigned = true;
+            AgreementSignedBy = signer;
             DateAgreementSigned = DateTime.Now;
         }
         

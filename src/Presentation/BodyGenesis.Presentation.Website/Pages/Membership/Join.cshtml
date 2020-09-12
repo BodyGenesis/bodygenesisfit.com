@@ -39,7 +39,7 @@
 
         </div>
     </div>
-    <div class="form-row mb-2 d-none">
+    <div id="quantity" class="form-row mb-2 d-none">
         <div class="col">
 
             <div class="form-group">
@@ -60,6 +60,10 @@
 <script>
     const continueButton = document.getElementById("continue_button");
     const inputs = document.querySelectorAll("input[type='radio']");
+    const quantitySection = document.getElementById("quantity");
+
+    quantitySection.classList.remove("d-none");
+    quantitySection.classList.add("d-none");
 
     inputs.forEach(input => {
         input.addEventListener("click", e => {
@@ -67,7 +71,9 @@
 
             const hasQuantityRates = (e.target.getAttribute("data-has-quantity-based-rates").toLowerCase() === "true");
 
-
+            if (hasQuantityRates) {
+                quantitySection.classList.remove("d-none");
+            }
         });
     });
     

@@ -13,12 +13,21 @@
     {
         Write(Html.DisplayFor(m => block, block.GetType().Name));
     }
-</main>
 
-<div class="mt-4 d-flex justify-content-end">
-    <form method="post">
+    <div class="m-4 text-center">
+        <strong>@Model.PricingNotice</strong>
+    </div>
+</main>
+<form method="post">
+    <div class="mt-4 d-flex justify-content-end">
+        <div class="form-group" style="max-width:350px;">
+            <label for="Signer">Your Signature</label>
+            <input class="form-control" asp-for="Signer" placeholder="Your Full Legal Name" required />
+        </div>
+    </div>
+    <div class="mt-4 d-flex justify-content-end">
         <input asp-for="PageId" type="hidden" value="@Model.Data.Id" />
         <input class="btn btn-light mr-2" asp-for="SubmitAction" type="submit" value="Cancel" />
         <input class="btn btn-primary" asp-for="SubmitAction" type="submit" value="Agree" />
-    </form>
-</div>
+    </div>
+</form>

@@ -37,6 +37,8 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
         [BindProperty]
         public string AccountNumber2 { get; set; }
 
+        public MembershipSubscription MembershipSubscription { get; private set; }
+
         public async Task<IActionResult> OnGetAsync()
         {
             var auth0UserId = User.FindFirstValue("sub");
@@ -50,10 +52,12 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
 
             var customer = customerResult.Value;
 
-            if (customer.PaymentMethods.Count > 0)
+            if (customer.PaymentMethods.Count > 1)
             {
                 return Redirect(customer.CurrentMembershipSubscription.AgreementSigned ? "/membership" : "/membership/agreement");
             }
+
+            MembershipSubscription = customer.CurrentMembershipSubscription;
 
             return Page();
         }
