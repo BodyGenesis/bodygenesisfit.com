@@ -12,6 +12,29 @@ namespace BodyGenesis.Core.Entities
         public List<QuantityBasedRate> QuantityBasedRates { get; set; } = new List<QuantityBasedRate>();
         public bool HasQuantityBasedRates => QuantityBasedRates.Count > 0;
 
+        /// <summary>
+        /// Only supporte for <see cref="BillingPeriod.Month"/>. Returns the current pro-rated amount for the current period.
+        /// </summary>
+        public decimal? GetProRatedRateForQuantity(int quantity)
+        {
+            if (BillingPeriod != BillingPeriod.Month)
+            {
+                return null;
+            }
+
+            DateTime today = DateTime.Now;
+
+            var fullRate = GetRateForQuantity(quantity);
+            var totalDaysInPeriod = DateTime.DaysInMonth(today.Year, today.Month);
+            var dailyRate = (fullRate / totalDaysInPeriod);
+            
+            DateTime endOfPeriod = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month));
+
+            var remainingDaysInPeriod = (int)Math.Ceiling((endOfPeriod - today).TotalDays);
+
+            return Math.Round(dailyRate * remainingDaysInPeriod);
+        }
+
         public decimal GetRateForQuantity(int quantity)
         {
             if (!HasQuantityBasedRates)

@@ -38,6 +38,16 @@
                     <span>$@subscription.Plan.GetRateForQuantity(subscription.Quantity) @subscription.Plan.BillingPeriod.ToDisplayText()</span>
                 </div>
             </div>
+
+            @if (customer.CurrentMembershipSubscription.Plan.BillingPeriod == BillingPeriod.Month)
+            {
+                <div class="row mb-2">
+                    <div class="col">
+                        <strong>Pro-Rated Rate (for Initial Charges)</strong><br />
+                        <span>$@subscription.Plan.GetProRatedRateForQuantity(subscription.Quantity)</span>
+                    </div>
+                </div>
+            }
         }
 
         <div class="row mb-2">
