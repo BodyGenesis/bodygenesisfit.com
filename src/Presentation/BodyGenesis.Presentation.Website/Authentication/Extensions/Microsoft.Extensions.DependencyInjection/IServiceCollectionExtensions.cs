@@ -85,6 +85,11 @@ namespace Microsoft.Extensions.DependencyInjection
                             var name = context.Principal.FindFirstValue("name");
                             var email = context.Principal.FindFirstValue("email");
 
+                            if (name?.Equals(email, StringComparison.OrdinalIgnoreCase) ?? true)
+                            {
+                                name = string.Empty;
+                            }
+
                             await context.HttpContext.RequestServices
                                 .GetRequiredService<IMediator>()
                                 .Send(new EnsureCustomerForAuth0UserRequest(sub, name, email));
