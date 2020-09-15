@@ -30,7 +30,7 @@ namespace BodyGenesis.Core.Entities
             
             DateTime endOfPeriod = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month));
 
-            var remainingDaysInPeriod = (int)Math.Ceiling((endOfPeriod - today).TotalDays);
+            var remainingDaysInPeriod = ((int)Math.Ceiling((endOfPeriod - today).TotalDays) + 1);
 
             return Math.Round(dailyRate * remainingDaysInPeriod);
         }
