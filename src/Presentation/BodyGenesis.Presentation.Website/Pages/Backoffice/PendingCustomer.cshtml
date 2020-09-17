@@ -91,8 +91,8 @@
             @foreach (var paymentMethod in Model.Customer.PaymentMethods)
             {
                 <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">@paymentMethod.Type.ToString()</h5>
+                    <div class="card-header bg-primary text-dark">
+                        <span class="font-weight-bold">@paymentMethod.Type.ToDisplayText()</span>
                     </div>
                     <ul class="list-group list-group-flush">
 

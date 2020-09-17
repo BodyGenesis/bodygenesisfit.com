@@ -132,6 +132,8 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
             customer.ZipCode = Customer.ZipCode;
             customer.PreferredLocation = Customer.PreferredLocation;
 
+            Customer = customer;
+
             await _mediator.Send(new SaveCustomerRequest(customer));
         }
     }

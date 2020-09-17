@@ -9,6 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 
 namespace BodyGenesis.Presentation.Website.Pages.Membership
@@ -39,6 +40,12 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
 
         [BindProperty]
         public string SubmitAction { get; set; }
+
+        public IEnumerable<SelectListItem> PaymentMethodTypeOptions => new SelectListItem[]
+        {
+            new SelectListItem(PaymentMethodType.BankAccount.ToDisplayText(), ((int)PaymentMethodType.BankAccount).ToString()),
+            new SelectListItem(PaymentMethodType.CreditCard.ToDisplayText(), ((int)PaymentMethodType.CreditCard).ToString())
+        };
 
         public MembershipSubscription MembershipSubscription { get; private set; }
 
