@@ -51,14 +51,19 @@
     </div>
     <div class="form-row">
         <div class="col">
+            <div class="d-flex justify-content-start">
+                <input class="btn btn-outline-secondary" asp-for="SubmitAction" type="submit" value="Cancel" />
+            </div>
+        </div>
+        <div class="col">
             <div class="d-flex justify-content-end">
-                <button id="continue_button" class="btn btn-primary" type="submit" disabled>Continue</button>
+                <input class="btn btn-primary continue-button" asp-for="SubmitAction" type="submit" value="Continue" disabled />
             </div>
         </div>
     </div>
 </form>
 <script>
-    const continueButton = document.getElementById("continue_button");
+    const continueButton = document.querySelector(".continue-button");
     const inputs = document.querySelectorAll("input[type='radio']");
     const quantitySection = document.getElementById("quantity");
 

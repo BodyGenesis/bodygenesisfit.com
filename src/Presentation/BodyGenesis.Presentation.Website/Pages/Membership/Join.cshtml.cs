@@ -32,6 +32,9 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
         [BindProperty]
         public int Quantity { get; set; } = 2;
 
+        [BindProperty]
+        public string SubmitAction { get; set; }
+
         public async Task<IActionResult> OnGetAsync()
         {
             var auth0UserId = User.FindFirstValue("sub");
@@ -70,7 +73,7 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
 
             Customer = customerResult.Value;
 
-            if (Customer.CurrentMembershipSubscription != null)
+            if (Customer.CurrentMembershipSubscription != null || SubmitAction.Equals("cancel", StringComparison.OrdinalIgnoreCase))
             {
                 return Redirect("/membership");
             }

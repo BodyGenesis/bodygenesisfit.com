@@ -37,6 +37,9 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
         [BindProperty]
         public string AccountNumber2 { get; set; }
 
+        [BindProperty]
+        public string SubmitAction { get; set; }
+
         public MembershipSubscription MembershipSubscription { get; private set; }
 
         public async Task<IActionResult> OnGetAsync()
@@ -82,6 +85,15 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
 
             var customer = customerResult.Value;
             var encryptionKey = _configuration["BodyGenesis:Shared:EncryptionKey"];
+
+            if (!SubmitAction.Equals("continue", StringComparison.OrdinalIgnoreCase))
+            {
+                customer.MembershipSubscriptions.Remove(customer.CurrentMembershipSubscription);
+
+                await _mediator.Send(new SaveCustomerRequest(customer));
+
+                return Redirect("/membership/join");
+            }
 
             PaymentMethod1.SetEncryptedAccountNumber(AccountNumber1, encryptionKey);
             PaymentMethod2.SetEncryptedAccountNumber(AccountNumber2, encryptionKey);
