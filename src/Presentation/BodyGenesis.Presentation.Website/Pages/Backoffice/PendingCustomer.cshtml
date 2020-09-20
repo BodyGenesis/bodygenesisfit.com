@@ -32,6 +32,16 @@
                 </div>
             </div>
 
+            @if (subscription.Plan.HasQuantityBasedRates)
+            {
+                <div class="row mb-2">
+                    <div class="col">
+                        <strong># of Members in Plan</strong><br />
+                        <span>@subscription.Quantity</span>
+                    </div>
+                </div>
+            }
+
             <div class="row mb-2">
                 <div class="col">
                     <strong>Rate</strong><br />
