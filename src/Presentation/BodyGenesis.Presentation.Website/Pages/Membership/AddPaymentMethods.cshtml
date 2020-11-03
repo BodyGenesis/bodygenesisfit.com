@@ -8,7 +8,7 @@
 <script>
     const continueButton = document.querySelector(".continue-button");
 
-    for (let i = 1; i < 3; i++) {
+    for (let i = 2; i < 3; i++) {
         document.getElementById(`PaymentMethod${i}_Type`).addEventListener("change", e => {
             const type = Number.parseInt(e.target.value);
             const routingNumber = document.getElementById(`routing_number_${i}`);
@@ -65,31 +65,24 @@
 
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">Payment Method 1</h5>
+                    <h5 class="card-title">Primary Bank Account</h5>
                     <div class="form-group mb-2">
-                        <label class="font-weight-bold" for="PaymentMethod1_Type">Type</label>
-                        <select class="form-control" asp-for="PaymentMethod1.Type" asp-items="Model.PaymentMethodTypeOptions" required>
-                            <option disabled hidden selected value="none">Select a Payment Method Type</option>
-                        </select>
+                        <p>Your primary payment method must be a bank account.</p>
                     </div>
                     <div id="routing_number_1" class="form-group mb-2 d-none">
                         <label class="font-weight-bold" for="PaymentMethod1_RoutingNumber">Routing Number</label>
-                        <input class="form-control" asp-for="PaymentMethod1.RoutingNumber" type="text" />
+                        <input class="form-control" asp-for="PaymentMethod1.RoutingNumber" type="text" required />
                     </div>
                     <div id="account_number_1" class="form-group mb-2">
                         <label class="font-weight-bold" for="AccountNumber1">Account Number</label>
                         <input class="form-control" asp-for="AccountNumber1" type="text" required />
-                    </div>
-                    <div id="expiration_date_1" class="form-group mb-2 d-none">
-                        <label class="font-weight-bold" for="PaymentMethod1_ExpirationDate">Expiration Date</label>
-                        <input class="form-control" asp-for="PaymentMethod1.ExpirationDate" type="month" />
                     </div>
                 </div>
             </div>
 
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">Payment Method 2</h5>
+                    <h5 class="card-title">Alternate Payment Method</h5>
                     <div class="form-group mb-2">
                         <label class="font-weight-bold" for="PaymentMethod2_Type">Type</label>
                         <select class="form-control" asp-for="PaymentMethod2.Type" asp-items="Model.PaymentMethodTypeOptions" required>

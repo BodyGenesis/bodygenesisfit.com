@@ -74,6 +74,8 @@ namespace BodyGenesis.Presentation.Website.Pages.Membership
 
         public async Task<IActionResult> OnPostAsync()
         {
+            PaymentMethod1.Type = PaymentMethodType.BankAccount;
+
             if (PaymentMethod1.Type == PaymentMethodType.GiftCard || PaymentMethod2.Type == PaymentMethodType.GiftCard)
             {
                 ViewData["ErrorMessage"] = "Gift cards are not currently supported.";
