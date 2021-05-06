@@ -1,7 +1,78 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+<h3>Welcome, @Customer.Name</h3>
+<MudText Typo="Typo.h3">Welcome, @Customer.Name</MudText>
 
-Welcome to your new app.
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h5">Profile</MudText>
+                    <MudSimpleTable Dense="true">
+                        <tbody>
+                            <tr>
+                                <th>Name</th>
+                                <td>@Customer.Name</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>@Customer.EmailAddress</td>
+                            </tr>
+                            <tr>
+                                <th>Phone</th>
+                                <td>@Customer.PhoneNumber</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>@Customer.EmailAddress</td>
+                            </tr>
+                            <tr>
+                                <th>Address</th>
+                                <td>@Customer.Address</td>
+                            </tr>
+                            <tr>
+                                <th>City</th>
+                                <td>@Customer.City, @Customer.State @Customer.ZipCode</td>
+                            </tr>
+                            <tr>
+                                <th>Date of Birth</th>
+                                <td>@Customer.DateOfBirth?.ToShortDateString()</td>
+                            </tr>
+                            <tr>
+                                <th>Preferred Location</th>
+                                <td>@Customer.PreferredLocation</td>
+                            </tr>
+                        </tbody>
+                    </MudSimpleTable>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
+    </MudItem>
+</MudGrid>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@if (Customer.CurrentMembershipSubscription is null)
+{
+    if (Customer.CanStartMembership)
+    {
+    }
+
+    else
+    {
+
+    }
+}
+
+else
+{
+}
+
+@code
+{
+    public Customer Customer { get; private set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
+}

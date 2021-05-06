@@ -5,10 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ardalis.ApiEndpoints" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BodyGenesis.Core\BodyGenesis.Core.csproj" />
+    <ProjectReference Include="..\..\BodyGenesis.Infrastructure.MongoDB\BodyGenesis.Infrastructure.MongoDB.csproj" />
+    <ProjectReference Include="..\..\BodyGenesis.Shared\BodyGenesis.Shared.csproj" />
     <ProjectReference Include="..\Client\BodyGenesis.AccountManager.Client.csproj" />
     <ProjectReference Include="..\Shared\BodyGenesis.AccountManager.Shared.csproj" />
   </ItemGroup>

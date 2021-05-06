@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.12.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BodyGenesis.Shared\BodyGenesis.Shared.csproj" />
+    <ProjectReference Include="..\BodyGenesis.Core\BodyGenesis.Core.csproj" />
   </ItemGroup>
 
 </Project>
