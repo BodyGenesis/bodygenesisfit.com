@@ -1,5 +1,8 @@
 ﻿@page "/"
 
+@inject CustomersApiClient CustomersApi
+@inject ISnackbar Snackbar
+
 <h3>Welcome, @Customer.Name</h3>
 <MudText Typo="Typo.h3">Welcome, @Customer.Name</MudText>
 
@@ -69,10 +72,24 @@ else
 
 @code
 {
-    public Customer Customer { get; private set; }
+    [CascadingParameter]
+    Task<AuthenticationState> AuthenticationState { get; set; }
 
-    protected override Task OnInitializedAsync()
+    Customer Customer { get; set; } = new Customer();
+
+    protected override async Task OnInitializedAsync()
     {
-        return base.OnInitializedAsync();
+        var authState = await AuthenticationState;
+
+        var maybeCustomer = await CustomersApi.GetByAuth0UserId(authState.User.FindFirst("sub")?.Value);
+
+        if (!maybeCustomer.HasValue)
+        {
+            Snackbar.Add("No customer record could be found for the currently sign-in user.", Severity.Error);
+
+            return;
+        }
+
+        Customer = maybeCustomer.Value;
     }
 }

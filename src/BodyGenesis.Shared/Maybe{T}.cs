@@ -3,7 +3,7 @@
     public class Maybe<T>
         where T : class
     {
-        private Maybe()
+        public Maybe()
         { }
 
         private  Maybe(T value)
@@ -19,6 +19,6 @@
         }
 
         public bool HasValue => (Value != null);
-        public T Value { get; }
+        public T Value { get; set; }
     }
 }

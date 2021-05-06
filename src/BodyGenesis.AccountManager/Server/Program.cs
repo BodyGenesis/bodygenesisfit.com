@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -21,6 +22,13 @@ namespace BodyGenesis.AccountManager.Server
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureServices((context, services) =>
+                {
+                    services.AddBodyGenesis(context.Configuration, app =>
+                    {
+                        app.UseMongoDB(context.Configuration.GetConnectionString("MongoDB:BodyGenesisFit"), "BodyGenesisCMS_Dev");
+                    });
                 });
     }
 }

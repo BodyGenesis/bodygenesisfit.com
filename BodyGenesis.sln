@@ -7,19 +7,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E19A1492-603
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{7F7EED0E-94E0-4C5F-A140-A67E3C443321}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodyGenesis.Core", "src\BodyGenesis.Core\BodyGenesis.Core.csproj", "{C8B6057F-406C-4048-896D-99C9661ED283}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodyGenesis.Core", "src\BodyGenesis.Core\BodyGenesis.Core.csproj", "{C8B6057F-406C-4048-896D-99C9661ED283}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodyGenesis.AccountManager.Server", "src\BodyGenesis.AccountManager\Server\BodyGenesis.AccountManager.Server.csproj", "{7E00B221-7F97-4B93-9FA4-C5A482E42F0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodyGenesis.AccountManager.Server", "src\BodyGenesis.AccountManager\Server\BodyGenesis.AccountManager.Server.csproj", "{7E00B221-7F97-4B93-9FA4-C5A482E42F0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodyGenesis.AccountManager.Client", "src\BodyGenesis.AccountManager\Client\BodyGenesis.AccountManager.Client.csproj", "{38E333AB-34E0-413B-979B-7D67105460CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodyGenesis.AccountManager.Client", "src\BodyGenesis.AccountManager\Client\BodyGenesis.AccountManager.Client.csproj", "{38E333AB-34E0-413B-979B-7D67105460CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodyGenesis.AccountManager.Shared", "src\BodyGenesis.AccountManager\Shared\BodyGenesis.AccountManager.Shared.csproj", "{8D20126D-6834-49F9-89A6-B1E33FCB3CDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodyGenesis.AccountManager.Shared", "src\BodyGenesis.AccountManager\Shared\BodyGenesis.AccountManager.Shared.csproj", "{8D20126D-6834-49F9-89A6-B1E33FCB3CDE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{6E03D43A-C982-48EF-ABA0-5D94B675C7E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodyGenesis.Infrastructure.MongoDB", "src\BodyGenesis.Infrastructure.MongoDB\BodyGenesis.Infrastructure.MongoDB.csproj", "{FCDB820B-D2BD-4FC3-837C-B34F444CBA07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodyGenesis.Infrastructure.MongoDB", "src\BodyGenesis.Infrastructure.MongoDB\BodyGenesis.Infrastructure.MongoDB.csproj", "{FCDB820B-D2BD-4FC3-837C-B34F444CBA07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodyGenesis.Shared", "src\BodyGenesis.Shared\BodyGenesis.Shared.csproj", "{BEF1B919-7AE4-4D2B-9667-5BE952EA5D94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodyGenesis.Shared", "src\BodyGenesis.Shared\BodyGenesis.Shared.csproj", "{BEF1B919-7AE4-4D2B-9667-5BE952EA5D94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
