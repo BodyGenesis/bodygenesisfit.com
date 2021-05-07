@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -38,6 +39,26 @@ namespace BodyGenesis.AccountManager.Server.Controllers
             }
 
             return await _customerRepository.Get(Guid.Parse(id));
+        }
+
+        [HttpPost]
+        [Route("")]
+        public async Task Save([FromBody]Customer customer)
+        {
+            customer.MembershipSubscriptions = new List<MembershipSubscription>();
+            customer.PaymentMethods = new List<PaymentMethod>();
+
+            var maybeExistingCustomer = await _customerRepository.Get(customer.Id);
+
+            if (maybeExistingCustomer.HasValue)
+            {
+                var existingCustomer = maybeExistingCustomer.Value;
+
+                customer.MembershipSubscriptions = existingCustomer.MembershipSubscriptions;
+                customer.PaymentMethods = existingCustomer.PaymentMethods;
+            }
+
+            await _customerRepository.Save(customer);
         }
     }
 }

@@ -25,5 +25,10 @@ namespace BodyGenesis.AccountManager.Client.Services
         {
             return await _httpClient.GetFromJsonAsync<Maybe<Customer>>($"api/customers/{auth0UserId}?$axis=auth0UserId");
         }
+
+        public async Task Save(Customer customer)
+        {
+            await _httpClient.PostAsJsonAsync("api/customers", customer);
+        }
     }
 }

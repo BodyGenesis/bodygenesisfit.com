@@ -6,14 +6,14 @@
 
 <MudContainer MaxWidth="MaxWidth.Medium">
     <MudText Typo="Typo.h3" GutterBottom="true">@Customer.Name</MudText>
-    <MudGrid Justify="Justify.Center">
+    <MudGrid Justify="Justify.Center" Spacing="6">
 
         <MudItem xs="6">
             <MudText Typo="Typo.h5" GutterBottom="true">Personal Information</MudText>
             <MudGrid>
 
                 <MudItem xs="12">
-                    <MudTextField T="string" Disabled="!Editing" Label="Name" @bind-Value="Customer.Name" />
+                    <MudTextField T="string" Disabled="!Editing" Label="Name" Required="true" @bind-Value="Customer.Name" />
                 </MudItem>
 
                 <MudItem xs="12">
@@ -21,23 +21,34 @@
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudTextField T="string" Disabled="!Editing" Label="Phone" @bind-Value="Customer.PhoneNumber" />
+                    <MudTextField T="string" Disabled="!Editing" Label="Phone" Required="true" @bind-Value="Customer.PhoneNumber" />
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudTextField T="string" Disabled="!Editing" Label="Address" @bind-Value="Customer.Address" />
+                    <MudTextField T="string" Disabled="!Editing" Label="Address" Required="true" @bind-Value="Customer.Address" />
                 </MudItem>
 
                 <MudItem xs="4">
-                    <MudTextField T="string" Disabled="!Editing" Label="City" @bind-Value="Customer.City" />
+                    <MudTextField T="string" Disabled="!Editing" Label="City" Required="true" @bind-Value="Customer.City" />
                 </MudItem>
 
                 <MudItem xs="4">
-                    <MudTextField T="string" Disabled="!Editing" Label="State" @bind-Value="Customer.State" />
+                    <MudTextField T="string" Disabled="!Editing" Label="State" Required="true" @bind-Value="Customer.State" />
                 </MudItem>
 
                 <MudItem xs="4">
-                    <MudTextField T="string" Disabled="!Editing" Label="Zip Code" @bind-Value="Customer.ZipCode" />
+                    <MudTextField T="string" Disabled="!Editing" Label="Zip Code" Required="true" @bind-Value="Customer.ZipCode" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudDatePicker Disabled="!Editing" Editable="true" Label="Date of Birth" Required="true" @bind-Date="Customer.DateOfBirth" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudSelect T="string" Disabled="!Editing" Label="Preferred Location" Required="true" @bind-Value="Customer.PreferredLocation">
+                        <MudSelectItem Value="@("New Castle/Shenango")" />
+                        <MudSelectItem Value="@("Saxonburg")" />
+                    </MudSelect>
                 </MudItem>
 
                 <MudItem xs="12">
@@ -57,7 +68,16 @@
         </MudItem>
 
         <MudItem xs="6">
+            <MudText Typo="Typo.h5" GutterBottom="true">Membership Information</MudText>
+            @if (Customer.CurrentMembershipSubscription is null)
+            {
+                <MudButton Color="Color.Primary" Variant="Variant.Filled">Start New Membership</MudButton>
+            }
 
+            else
+            {
+                <MembershipSubscriptionCard MembershipSubscription="Customer.CurrentMembershipSubscription" />
+            }
         </MudItem>
 
     </MudGrid>
@@ -103,10 +123,14 @@
         }
 
         Customer = maybeCustomer.Value;
+        CustomerBackup = string.Empty;
     }
 
     async Task SaveChanges()
     {
         Editing = false;
+
+        await CustomersApi.Save(Customer);
+        await Refresh();
     }
 }
