@@ -1,95 +1,16 @@
 ﻿@page "/"
 
-@inject CustomersApiClient CustomersApi
-@inject ISnackbar Snackbar
-
-<h3>Welcome, @Customer.Name</h3>
-<MudText Typo="Typo.h3">Welcome, @Customer.Name</MudText>
-
-<MudGrid Justify="Justify.Center">
-    <MudItem xs="6">
-        <MudCard>
-            <MudCardHeader>
-                <CardHeaderContent>
-                    <MudText Typo="Typo.h5">Profile</MudText>
-                    <MudSimpleTable Dense="true">
-                        <tbody>
-                            <tr>
-                                <th>Name</th>
-                                <td>@Customer.Name</td>
-                            </tr>
-                            <tr>
-                                <th>Email</th>
-                                <td>@Customer.EmailAddress</td>
-                            </tr>
-                            <tr>
-                                <th>Phone</th>
-                                <td>@Customer.PhoneNumber</td>
-                            </tr>
-                            <tr>
-                                <th>Email</th>
-                                <td>@Customer.EmailAddress</td>
-                            </tr>
-                            <tr>
-                                <th>Address</th>
-                                <td>@Customer.Address</td>
-                            </tr>
-                            <tr>
-                                <th>City</th>
-                                <td>@Customer.City, @Customer.State @Customer.ZipCode</td>
-                            </tr>
-                            <tr>
-                                <th>Date of Birth</th>
-                                <td>@Customer.DateOfBirth?.ToShortDateString()</td>
-                            </tr>
-                            <tr>
-                                <th>Preferred Location</th>
-                                <td>@Customer.PreferredLocation</td>
-                            </tr>
-                        </tbody>
-                    </MudSimpleTable>
-                </CardHeaderContent>
-            </MudCardHeader>
-        </MudCard>
-    </MudItem>
-</MudGrid>
-
-@if (Customer.CurrentMembershipSubscription is null)
-{
-    if (Customer.CanStartMembership)
-    {
-    }
-
-    else
-    {
-
-    }
-}
-
-else
-{
-}
+@inject NavigationManager NavigationManager
 
 @code
 {
     [CascadingParameter]
     Task<AuthenticationState> AuthenticationState { get; set; }
 
-    Customer Customer { get; set; } = new Customer();
-
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationState;
 
-        var maybeCustomer = await CustomersApi.GetByAuth0UserId(authState.User.FindFirst("sub")?.Value);
-
-        if (!maybeCustomer.HasValue)
-        {
-            Snackbar.Add("No customer record could be found for the currently sign-in user.", Severity.Error);
-
-            return;
-        }
-
-        Customer = maybeCustomer.Value;
+        NavigationManager.NavigateTo($"/customers/{System.Net.WebUtility.UrlEncode(authState.User.GetClaimValue("sub"))}?$axis=auth0UserId");
     }
 }

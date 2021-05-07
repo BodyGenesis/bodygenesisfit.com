@@ -1,0 +1,44 @@
+﻿<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h5">Membership</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudSimpleTable Dense="true">
+            <tbody>
+                <tr>
+                    <th>Membership Plan</th>
+                    <td>@MembershipSubscription.Plan.Name</td>
+                </tr>
+                <tr>
+                    <th>Member Since</th>
+                    <td>@MembershipSubscription.StartDate.ToShortDateString()</td>
+                </tr>
+                <tr>
+                    <th>Members Covered</th>
+                    <td>@MembershipSubscription.Quantity</td>
+                </tr>
+                <tr>
+                    <th>Price</th>
+                    <td>$@MembershipSubscription.Plan.GetRateForQuantity(MembershipSubscription.Quantity) per @MembershipSubscription.Plan.BillingPeriod.ToDisplayText()</td>
+                </tr>
+
+                @if (MembershipSubscription.EndDate is not null)
+                {
+                    <tr>
+                        <th>Membership Expires</th>
+                        <td>@MembershipSubscription.EndDate.Value.ToShortDateString()</td>
+                    </tr>
+                }
+
+            </tbody>
+        </MudSimpleTable>
+    </MudCardContent>
+</MudCard>
+
+@code
+{
+    [Parameter]
+    public MembershipSubscription MembershipSubscription { get; set; } = new MembershipSubscription();
+}

@@ -16,9 +16,9 @@ namespace BodyGenesis.AccountManager.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<Maybe<Customer>> Get(string id)
+        public async Task<Maybe<Customer>> Get(string id, string axis = "")
         {
-            return await _httpClient.GetFromJsonAsync<Maybe<Customer>>($"api/customers/{id}");
+            return await _httpClient.GetFromJsonAsync<Maybe<Customer>>($"api/customers/{id}{(string.IsNullOrWhiteSpace(axis) ? "" : $"?$axis={axis}")}");
         }
 
         public async Task<Maybe<Customer>> GetByAuth0UserId(string auth0UserId)

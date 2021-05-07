@@ -1,0 +1,112 @@
+﻿@page "/customers/{customerId}"
+
+@inject CustomersApiClient CustomersApi
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+<MudContainer MaxWidth="MaxWidth.Medium">
+    <MudText Typo="Typo.h3" GutterBottom="true">@Customer.Name</MudText>
+    <MudGrid Justify="Justify.Center">
+
+        <MudItem xs="6">
+            <MudText Typo="Typo.h5" GutterBottom="true">Personal Information</MudText>
+            <MudGrid>
+
+                <MudItem xs="12">
+                    <MudTextField T="string" Disabled="!Editing" Label="Name" @bind-Value="Customer.Name" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudTextField T="string" Disabled="true" Label="Email" @bind-Value="Customer.EmailAddress" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudTextField T="string" Disabled="!Editing" Label="Phone" @bind-Value="Customer.PhoneNumber" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudTextField T="string" Disabled="!Editing" Label="Address" @bind-Value="Customer.Address" />
+                </MudItem>
+
+                <MudItem xs="4">
+                    <MudTextField T="string" Disabled="!Editing" Label="City" @bind-Value="Customer.City" />
+                </MudItem>
+
+                <MudItem xs="4">
+                    <MudTextField T="string" Disabled="!Editing" Label="State" @bind-Value="Customer.State" />
+                </MudItem>
+
+                <MudItem xs="4">
+                    <MudTextField T="string" Disabled="!Editing" Label="Zip Code" @bind-Value="Customer.ZipCode" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    @if (Editing)
+                    {
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveChanges">Save Changes</MudButton>
+                        <MudButton Variant="Variant.Text" Color="Color.Default" OnClick="CancelEditing">Cancel</MudButton>
+                    }
+
+                    else
+                    {
+                        <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="BeginEditing">Edit</MudButton>
+                    }
+                </MudItem>
+
+            </MudGrid>
+        </MudItem>
+
+        <MudItem xs="6">
+
+        </MudItem>
+
+    </MudGrid>
+</MudContainer>
+
+@code
+{
+    [Parameter]
+    public string CustomerId { get; set; } = string.Empty;
+
+    Customer Customer { get; set; } = new Customer();
+    string CustomerBackup { get; set; } = string.Empty;
+    bool Editing { get; set; } = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await Refresh();
+    }
+
+    void BeginEditing()
+    {
+        CustomerBackup = System.Text.Json.JsonSerializer.Serialize(Customer);
+
+        Editing = true;
+    }
+
+    void CancelEditing()
+    {
+        Customer = System.Text.Json.JsonSerializer.Deserialize<Customer>(CustomerBackup);
+
+        Editing = false;
+    }
+
+    async Task Refresh()
+    {
+        var maybeCustomer = await CustomersApi.Get(CustomerId, NavigationManager.GetQueryParam<string>("$axis"));
+
+        if (!maybeCustomer.HasValue)
+        {
+            Snackbar.Add("The specified customer record could not be found.", Severity.Error);
+
+            return;
+        }
+
+        Customer = maybeCustomer.Value;
+    }
+
+    async Task SaveChanges()
+    {
+        Editing = false;
+    }
+}
