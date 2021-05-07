@@ -4,12 +4,11 @@
 @inject NavigationManager NavigationManager
 @inject ISnackbar Snackbar
 
-<MudContainer MaxWidth="MaxWidth.Medium">
-    <MudText Typo="Typo.h3" GutterBottom="true">@Customer.Name</MudText>
+<MudContainer>
     <MudGrid Justify="Justify.Center" Spacing="6">
 
-        <MudItem xs="6">
-            <MudText Typo="Typo.h5" GutterBottom="true">Personal Information</MudText>
+        <MudItem md="6">
+            <MudText Typo="Typo.h4" GutterBottom="true">Personal Information</MudText>
             <MudGrid>
 
                 <MudItem xs="12">
@@ -67,17 +66,37 @@
             </MudGrid>
         </MudItem>
 
-        <MudItem xs="6">
-            <MudText Typo="Typo.h5" GutterBottom="true">Membership Information</MudText>
+        <MudItem md="6">
+            <MudText Typo="Typo.h4" GutterBottom="true">Membership Information</MudText>
             @if (Customer.CurrentMembershipSubscription is null)
             {
-                <MudButton Color="Color.Primary" Variant="Variant.Filled">Start New Membership</MudButton>
+                <div style="display:flex;justify-content:center;align-items:center;">
+                    @if (!Customer.CanStartMembership)
+                    {
+                        <MudText Typo="Typo.body1" Align="Align.Center">Please complete your personal profile before starting a new membership.</MudText>
+                    }
+
+                    <MudButton Color="Color.Primary" Disabled="!Customer.CanStartMembership" Variant="Variant.Filled">Start New Membership</MudButton>
+                </div>
+                
             }
 
             else
             {
                 <MembershipSubscriptionCard MembershipSubscription="Customer.CurrentMembershipSubscription" />
             }
+        </MudItem>
+
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4" GutterBottom="true">Payment Information</MudText>
+            <MudGrid>
+                @foreach (var paymentMethod in Customer.PaymentMethods)
+                {
+                    <MudItem xs="12">
+                        <PaymentMethodCard PaymentMethod="paymentMethod" />
+                    </MudItem>
+                }
+            </MudGrid>
         </MudItem>
 
     </MudGrid>
@@ -117,8 +136,6 @@
 
         if (!maybeCustomer.HasValue)
         {
-            Snackbar.Add("The specified customer record could not be found.", Severity.Error);
-
             return;
         }
 
