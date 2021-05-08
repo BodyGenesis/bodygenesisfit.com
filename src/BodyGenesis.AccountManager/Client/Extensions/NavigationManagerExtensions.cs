@@ -56,5 +56,22 @@ namespace Microsoft.AspNetCore.Components
 
             return defaultValue;
         }
+
+        public static void NavigateRelativeToCurrent(this NavigationManager navigationManager, string relativeUri, bool keepQueryParams = false)
+        {
+            var currentUri = navigationManager.ToAbsoluteUri(navigationManager.Uri);
+            var scheme = currentUri.Scheme;
+            var host = currentUri.IsDefaultPort ? currentUri.Host : $"{currentUri.Host}:{currentUri.Port}";
+            var path = currentUri.AbsolutePath.EndsWith("/") ? currentUri.AbsolutePath : $"{currentUri.AbsolutePath}/";
+
+            var newUri = new Uri(new Uri($"{scheme}://{host}{path}"), new Uri(relativeUri, UriKind.Relative)).ToString();
+
+            if (keepQueryParams)
+            {
+                newUri = string.Concat(newUri, currentUri.Query);
+            }
+            
+            navigationManager.NavigateTo(newUri);
+        }
     }
 }

@@ -1,34 +1,61 @@
-﻿<MudCard>
+﻿<MudCard Outlined="true">
     <MudCardHeader>
+        <CardHeaderAvatar>
+            <MudIcon Color="Color.Default" Icon="@(PaymentMethod.Type == PaymentMethodType.BankAccount ? Icons.Material.Filled.AccountBalanceWallet : Icons.Material.Filled.CreditCard)" />
+        </CardHeaderAvatar>
         <CardHeaderContent>
-            <MudText Typo="Typo.h5">@PaymentMethod.Type.ToDisplayText()</MudText>
+            <MudText Typo="Typo.h6">@PaymentMethod.Type.ToDisplayText()</MudText>
+        </CardHeaderContent>
+        <CardHeaderActions>
+            <MudIconButton Color="Color.Error" Disabled="!CanDelete" Icon="@Icons.Material.Filled.Delete" />
+        </CardHeaderActions>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudGrid>
+
+            @if (!string.IsNullOrWhiteSpace(PaymentMethod.NameOnCard))
+            {
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h6">@PaymentMethod.NameOnCard</MudText>
+                </MudItem>
+            }
+
+            <MudItem xs="6">
+                <MudText Typo="Typo.caption">@AccountNumberLabel</MudText>
+                <MudText Typo="Typo.body1">@PaymentMethod.AccountNumberHint</MudText>
+            </MudItem>
 
             @if (PaymentMethod.Expires)
             {
-                <MudText Typo="Typo.body1">Expires @PaymentMethod.ExpirationDate?.ToShortDateString()</MudText>
+                <MudItem xs="6">
+                    <MudText Typo="Typo.caption">Expiration</MudText>
+                    <MudText Typo="Typo.body1">@PaymentMethod.ExpirationDate?.ToString("MMMM yyyy")</MudText>
+                </MudItem>
             }
 
-        </CardHeaderContent>
-    </MudCardHeader>
-    <MudCardContent>
-        @if (!string.IsNullOrWhiteSpace(PaymentMethod.NameOnCard))
-        {
-            <MudText Typo="Typo.h6">@PaymentMethod.NameOnCard</MudText>
-        }
+            @if (!string.IsNullOrWhiteSpace(PaymentMethod.RoutingNumber))
+            {
+                <MudItem xs="6">
+                    <MudText Typo="Typo.caption">Routing Number</MudText>
+                    <MudText Typo="Typo.body1">@PaymentMethod.RoutingNumber</MudText>
+                </MudItem>
+            }
 
-        <MudText Typo="Typo.h6">@PaymentMethod.AccountNumberHint</MudText>
-
-        @if (!string.IsNullOrWhiteSpace(PaymentMethod.RoutingNumber))
-        {
-            <MudText Typo="Typo.body1">@PaymentMethod.RoutingNumber</MudText>
-        }
-
+        </MudGrid>
     </MudCardContent>
 </MudCard>
 
 
 @code
 {
+    string AccountNumberLabel => (PaymentMethod.Type == PaymentMethodType.CreditCard) ? "Card Number" : "Account Number";
+
     [Parameter]
-    public PaymentMethod PaymentMethod { get; set; } = new PaymentMethod();
+    public bool CanDelete { get; set; } = false;
+
+    [Parameter]
+    public PaymentMethodDto PaymentMethod { get; set; } = new PaymentMethodDto();
+
+    [Parameter]
+    public EventCallback<PaymentMethodDto> PaymentMethodChanged { get; set; }
 }

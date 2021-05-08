@@ -1,0 +1,46 @@
+﻿@using BodyGenesis.AccountManager.Client.Shared.Cards
+
+<MudGrid>
+    @{ var canDeletePayments = PaymentMethods.Count > 2; }
+    @foreach (var paymentMethod in PaymentMethods)
+    {
+        <MudItem xs="12">
+            <PaymentMethodCard CanDelete="canDeletePayments" PaymentMethod="paymentMethod" />
+        </MudItem>
+    }
+
+    <MudItem xs="12">
+        <MudButton Variant="Variant.Filled" Color="Color.Success" StartIcon="@Icons.Material.Filled.Add" OnClick="() => NewPaymentMethodDialog.Show()">New Payment Method</MudButton>
+    </MudItem>
+
+</MudGrid>
+
+<MudMessageBox @ref="NewPaymentMethodDialog">
+    <MessageContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <MudSelect T="PaymentMethodType" Label="Type">
+                    <MudSelectItem Value="PaymentMethodType.BankAccount">Bank Account</MudSelectItem>
+                    <MudSelectItem Value="PaymentMethodType.CreditCard">Credit Card</MudSelectItem>
+                </MudSelect>
+            </MudItem>
+        </MudGrid>
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary">Save</MudButton>
+    </YesButton>
+    <CancelButton>
+        <MudButton Variant="Variant.Text" Color="Color.Default">Cancel</MudButton>
+    </CancelButton>
+</MudMessageBox>
+
+@code
+{
+    MudMessageBox NewPaymentMethodDialog { get; set; }
+
+    [Parameter]
+    public IReadOnlyCollection<PaymentMethodDto> PaymentMethods { get; set; } = Array.Empty<PaymentMethodDto>();
+
+    [Parameter]
+    public EventCallback<IReadOnlyCollection<PaymentMethodDto>> PaymentMethodsChanged { get; set; }
+}

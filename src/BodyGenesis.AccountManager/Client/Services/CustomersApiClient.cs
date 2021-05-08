@@ -2,7 +2,7 @@
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-using BodyGenesis.Core.Entities;
+using BodyGenesis.AccountManager.Shared.Models;
 using BodyGenesis.Shared;
 
 namespace BodyGenesis.AccountManager.Client.Services
@@ -16,17 +16,12 @@ namespace BodyGenesis.AccountManager.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<Maybe<Customer>> Get(string id, string axis = "")
+        public async Task<Maybe<CustomerDto>> Get(string id)
         {
-            return await _httpClient.GetFromJsonAsync<Maybe<Customer>>($"api/customers/{id}{(string.IsNullOrWhiteSpace(axis) ? "" : $"?$axis={axis}")}");
+            return await _httpClient.GetFromJsonAsync<Maybe<CustomerDto>>($"api/customers/{id}");
         }
 
-        public async Task<Maybe<Customer>> GetByAuth0UserId(string auth0UserId)
-        {
-            return await _httpClient.GetFromJsonAsync<Maybe<Customer>>($"api/customers/{auth0UserId}?$axis=auth0UserId");
-        }
-
-        public async Task Save(Customer customer)
+        public async Task Save(CustomerDto customer)
         {
             await _httpClient.PostAsJsonAsync("api/customers", customer);
         }

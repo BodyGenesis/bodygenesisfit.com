@@ -7,12 +7,12 @@
 <MudContainer>
     <MudGrid Justify="Justify.Center" Spacing="6">
 
-        <MudItem md="6">
+        <MudItem md="Customer.CanStartMembership ? 6 : 12">
             <MudText Typo="Typo.h4" GutterBottom="true">Personal Information</MudText>
             <MudGrid>
 
                 <MudItem xs="12">
-                    <MudTextField T="string" Disabled="!Editing" Label="Name" Required="true" @bind-Value="Customer.Name" />
+                    <MudTextField T="string" ReadOnly="!Editing" Label="Name" Required="true" @bind-Value="Customer.Name" />
                 </MudItem>
 
                 <MudItem xs="12">
@@ -20,31 +20,31 @@
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudTextField T="string" Disabled="!Editing" Label="Phone" Required="true" @bind-Value="Customer.PhoneNumber" />
+                    <MudTextField T="string" ReadOnly="!Editing" Label="Phone" Required="true" @bind-Value="Customer.PhoneNumber" />
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudTextField T="string" Disabled="!Editing" Label="Address" Required="true" @bind-Value="Customer.Address" />
+                    <MudTextField T="string" ReadOnly="!Editing" Label="Address" Required="true" @bind-Value="Customer.Address" />
                 </MudItem>
 
                 <MudItem xs="4">
-                    <MudTextField T="string" Disabled="!Editing" Label="City" Required="true" @bind-Value="Customer.City" />
+                    <MudTextField T="string" ReadOnly="!Editing" Label="City" Required="true" @bind-Value="Customer.City" />
                 </MudItem>
 
                 <MudItem xs="4">
-                    <MudTextField T="string" Disabled="!Editing" Label="State" Required="true" @bind-Value="Customer.State" />
+                    <MudTextField T="string" ReadOnly="!Editing" Label="State" Required="true" @bind-Value="Customer.State" />
                 </MudItem>
 
                 <MudItem xs="4">
-                    <MudTextField T="string" Disabled="!Editing" Label="Zip Code" Required="true" @bind-Value="Customer.ZipCode" />
+                    <MudTextField T="string" ReadOnly="!Editing" Label="Zip Code" Required="true" @bind-Value="Customer.ZipCode" />
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudDatePicker Disabled="!Editing" Editable="true" Label="Date of Birth" Required="true" @bind-Date="Customer.DateOfBirth" />
+                    <MudDatePicker ReadOnly="!Editing" Editable="true" Label="Date of Birth" Required="true" @bind-Date="Customer.DateOfBirth" />
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudSelect T="string" Disabled="!Editing" Label="Preferred Location" Required="true" @bind-Value="Customer.PreferredLocation">
+                    <MudSelect T="string" ReadOnly="!Editing" Label="Preferred Location" Required="true" @bind-Value="Customer.PreferredLocation">
                         <MudSelectItem Value="@("New Castle/Shenango")" />
                         <MudSelectItem Value="@("Saxonburg")" />
                     </MudSelect>
@@ -53,8 +53,12 @@
                 <MudItem xs="12">
                     @if (Editing)
                     {
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveChanges">Save Changes</MudButton>
-                        <MudButton Variant="Variant.Text" Color="Color.Default" OnClick="CancelEditing">Cancel</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveChanges" Style="margin-right:1rem;">Save Changes</MudButton>
+
+                        @if (CanCancelEditing)
+                        {
+                            <MudButton Variant="Variant.Text" Color="Color.Default" OnClick="CancelEditing">Cancel</MudButton>
+                        }
                     }
 
                     else
@@ -66,38 +70,33 @@
             </MudGrid>
         </MudItem>
 
-        <MudItem md="6">
-            <MudText Typo="Typo.h4" GutterBottom="true">Membership Information</MudText>
-            @if (Customer.CurrentMembershipSubscription is null)
-            {
-                <div style="display:flex;justify-content:center;align-items:center;">
-                    @if (!Customer.CanStartMembership)
-                    {
-                        <MudText Typo="Typo.body1" Align="Align.Center">Please complete your personal profile before starting a new membership.</MudText>
-                    }
-
-                    <MudButton Color="Color.Primary" Disabled="!Customer.CanStartMembership" Variant="Variant.Filled">Start New Membership</MudButton>
-                </div>
-                
-            }
-
-            else
-            {
-                <MembershipSubscriptionCard MembershipSubscription="Customer.CurrentMembershipSubscription" />
-            }
-        </MudItem>
-
-        <MudItem xs="12">
-            <MudText Typo="Typo.h4" GutterBottom="true">Payment Information</MudText>
-            <MudGrid>
-                @foreach (var paymentMethod in Customer.PaymentMethods)
+        @if (Customer.CanStartMembership)
+        {
+            <MudItem md="6">
+                <MudText Typo="Typo.h4" GutterBottom="true">Membership Information</MudText>
+                @if (Customer.CurrentMembershipSubscription is null)
                 {
-                    <MudItem xs="12">
-                        <PaymentMethodCard PaymentMethod="paymentMethod" />
-                    </MudItem>
+                    <div style="display:flex;justify-content:center;align-items:center;padding:2rem;">
+                        <MudButton OnClick="OnClickChangeMembership" Color="Color.Primary" Disabled="!Customer.CanStartMembership" Variant="Variant.Filled">Start New Membership</MudButton>
+                    </div>
+
                 }
-            </MudGrid>
-        </MudItem>
+
+                else
+                {
+                    <MembershipSubscriptionCard MembershipSubscription="Customer.CurrentMembershipSubscription" OnClickChangeMembership="OnClickChangeMembership" />
+                }
+            </MudItem>
+
+            @if (Customer.CurrentMembershipSubscription is not null)
+            {
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h4" GutterBottom="true">Payment Information</MudText>
+                    <MudText GutterBottom="true">We require at least two payment methods on file. To change or remove a payment method, you'll need to add a new one first.</MudText>
+                    <PaymentMethodList PaymentMethods="Customer.PaymentMethods" />
+                </MudItem>
+            }
+        }
 
     </MudGrid>
 </MudContainer>
@@ -107,9 +106,10 @@
     [Parameter]
     public string CustomerId { get; set; } = string.Empty;
 
-    Customer Customer { get; set; } = new Customer();
+    CustomerDto Customer { get; set; } = new CustomerDto();
     string CustomerBackup { get; set; } = string.Empty;
     bool Editing { get; set; } = false;
+    bool CanCancelEditing { get; set; } = true;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -125,14 +125,25 @@
 
     void CancelEditing()
     {
-        Customer = System.Text.Json.JsonSerializer.Deserialize<Customer>(CustomerBackup);
+        Customer = System.Text.Json.JsonSerializer.Deserialize<CustomerDto>(CustomerBackup);
 
+        EndEditing();
+    }
+
+    void EndEditing()
+    {
+        CustomerBackup = string.Empty;
         Editing = false;
+    }
+
+    void OnClickChangeMembership()
+    {
+        NavigationManager.NavigateRelativeToCurrent("./membership-plan");
     }
 
     async Task Refresh()
     {
-        var maybeCustomer = await CustomersApi.Get(CustomerId, NavigationManager.GetQueryParam<string>("$axis"));
+        var maybeCustomer = await CustomersApi.Get(CustomerId);
 
         if (!maybeCustomer.HasValue)
         {
@@ -141,11 +152,23 @@
 
         Customer = maybeCustomer.Value;
         CustomerBackup = string.Empty;
+
+        if (!Customer.CanStartMembership)
+        {
+            CanCancelEditing = false;
+
+            BeginEditing();
+        }
+
+        else
+        {
+            CanCancelEditing = true;
+        }
     }
 
     async Task SaveChanges()
     {
-        Editing = false;
+        EndEditing();
 
         await CustomersApi.Save(Customer);
         await Refresh();

@@ -1,0 +1,132 @@
+﻿@page "/customers/{customerId}/membership-plan"
+
+@inject CustomersApiClient CustomersApi
+@inject MembershipPlansApiClient MembershipPlansApi
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+<MudContainer>
+    <MudGrid Justify="Justify.Center" Spacing="6">
+
+        @if (Customer.CurrentMembershipSubscription is not null)
+        {
+            <MudItem md="6">
+                <MudText Typo="Typo.h4" GutterBottom="true">Current Membership Plan</MudText>
+                <MembershipSubscriptionCard HideActions="true" MembershipSubscription="Customer.CurrentMembershipSubscription" />
+            </MudItem>
+        }
+
+        <MudItem md="6">
+            <MudText Typo="Typo.h4" GutterBottom="true">Available Membership Plans</MudText>
+            <MudCard>
+                <MudCardContent>
+                    <MudList Clickable="true" @bind-SelectedItem="SelectedPlan">
+                        @foreach (var plan in MembershipPlans)
+                        {
+                            var text = $"{plan.Name} (${plan.Rate}/{plan.BillingPeriod.ToString().ToLower()})";
+
+                            if (plan.HasQuantityBasedRates)
+                            {
+                                text = $"{plan.Name} (starting at ${plan.GetRateForQuantity(1)}/{plan.BillingPeriod.ToString().ToLower()})";
+                            }
+
+                            <MudListItem Text="@text" Tag="plan" />
+                        }
+                    </MudList>
+
+                    @if (SelectedPlan is not null && (SelectedPlan.Tag as MembershipPlan).HasQuantityBasedRates)
+                    {
+                        <MudNumericField Adornment="Adornment.Start"
+                                         AdornmentIcon="@Icons.Material.Filled.People"
+                                         Min="2"
+                                         Max="10"
+                                         HelperText="How many people will use this membership?"
+                                         Style="margin-top:2rem;"
+                                         @bind-Value="SelectedPlanQuantity" />
+                    }
+
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem md="6">
+            <MudText Typo="Typo.h4">Payment Methods</MudText>
+            <MudText Typo="Typo.body1" GutterBottom="true">We require at least two payment methods on file.</MudText>
+            <PaymentMethodList PaymentMethods="Customer.PaymentMethods" />
+        </MudItem>
+
+        <MudItem xs="(Customer.CurrentMembershipSubscription is null) ? 6 : 12">
+            <MudGrid Justify="Justify.SpaceBetween">
+
+                <MudItem xs="6">
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Default"
+                               StartIcon="@Icons.Material.Filled.ChevronLeft"
+                               OnClick="OnClickBack">Back</MudButton>
+                </MudItem>
+
+                <MudItem xs="6" Style="text-align:right;">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="!CanConfirmPlan">@GetConfirmationButtonText()</MudButton>
+                </MudItem>
+
+            </MudGrid>
+        </MudItem>
+
+    </MudGrid>
+</MudContainer>
+
+@code
+{
+    [Parameter]
+    public string CustomerId { get; set; } = string.Empty;
+
+    CustomerDto Customer { get; set; } = new CustomerDto();
+    IReadOnlyCollection<MembershipPlan> MembershipPlans { get; set; } = Array.Empty<MembershipPlan>();
+    MudListItem SelectedPlan { get; set; }
+    int SelectedPlanQuantity { get; set; } = 2;
+
+    bool CanConfirmPlan => (SelectedPlan is not null && Customer.PaymentMethods.Count >= 2);
+
+    protected override async Task OnInitializedAsync()
+    {
+        MembershipPlans = await MembershipPlansApi.List();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await Refresh();
+    }
+
+    string GetConfirmationButtonText()
+    {
+        if (SelectedPlan is null)
+        {
+            return "Confirm $0/month";
+        }
+
+        var plan = SelectedPlan.Tag as MembershipPlan;
+
+        return $"Confirm ${plan.GetRateForQuantity(SelectedPlanQuantity)}/{plan.BillingPeriod.ToString().ToLower()}";
+    }
+
+    void OnClickBack()
+    {
+        NavigationManager.NavigateRelativeToCurrent("..");
+    }
+
+    async Task Refresh()
+    {
+        var maybeCustomer = await CustomersApi.Get(CustomerId);
+
+        if (!maybeCustomer.HasValue)
+        {
+            return;
+        }
+
+        Customer = maybeCustomer.Value;
+    }
+
+    async Task SaveChanges()
+    {
+    }
+}

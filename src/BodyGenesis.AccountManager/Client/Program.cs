@@ -41,6 +41,7 @@ namespace BodyGenesis.AccountManager.Client
             });
 
             builder.Services.AddHttpClient<CustomersApiClient>(hc => hc.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+            builder.Services.AddHttpClient<MembershipPlansApiClient>(hc => hc.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 
             await builder.Build().RunAsync();
         }

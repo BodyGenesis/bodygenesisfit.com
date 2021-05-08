@@ -18,8 +18,4 @@
     <ProjectReference Include="..\Shared\BodyGenesis.AccountManager.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Shared\Partials\" />
-  </ItemGroup>
-
 </Project>

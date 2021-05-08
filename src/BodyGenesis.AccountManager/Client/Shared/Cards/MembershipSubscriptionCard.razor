@@ -7,7 +7,7 @@
     <MudCardContent>
         <div class="d-flex justify-center">
             <MudText Typo="Typo.h3">$@MembershipSubscription.Plan.GetRateForQuantity(MembershipSubscription.Quantity)</MudText>
-            <MudText Typo="Typo.h5" Class="ml-1 mt-5" Color="Color.Secondary">/@MembershipSubscription.Plan.BillingPeriod.ToDisplayText()</MudText>
+            <MudText Typo="Typo.h5" Class="ml-1 mt-5" Color="Color.Secondary">/@MembershipSubscription.Plan.BillingPeriod.ToString().ToLower()</MudText>
         </div>
         <MudList Class="mx-auto mt-4" Style="width:300px;">
             <MudListItem Icon="@Icons.Material.Filled.People">
@@ -24,13 +24,22 @@
             }
         </MudList>
     </MudCardContent>
-    <MudCardActions Class="d-flex justify-center">
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Style="width:50%;">Change Membership</MudButton>
-    </MudCardActions>
+    @if (!HideActions)
+    {
+        <MudCardActions Class="d-flex justify-center">
+            <MudButton OnClick="OnClickChangeMembership" Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Style="width:50%;">Change Membership</MudButton>
+        </MudCardActions>
+    }
 </MudCard>
 
 @code
 {
     [Parameter]
+    public bool HideActions { get; set; } = false;
+
+    [Parameter]
     public MembershipSubscription MembershipSubscription { get; set; } = new MembershipSubscription();
+
+    [Parameter]
+    public EventCallback OnClickChangeMembership { get; set; }
 }

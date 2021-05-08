@@ -11,6 +11,6 @@
     {
         var authState = await AuthenticationState;
 
-        NavigationManager.NavigateTo($"/customers/{System.Net.WebUtility.UrlEncode(authState.User.GetClaimValue("sub"))}?$axis=auth0UserId");
+        NavigationManager.NavigateTo($"/customers/{authState.User.GetClaimValue("sub")}");
     }
 }
