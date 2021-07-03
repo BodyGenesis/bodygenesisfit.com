@@ -79,7 +79,7 @@ namespace BodyGenesis.Presentation.Website.Pages
 
                 customer.CurrentMembershipSubscription.SignAgreement(agreementData, Signer);
 
-                await _emailSender.Send(_websiteOptions.Value.EmailRecipients, $"New BodyGenesis Membership: {customer.Name}", $"<a href=\"https://{HttpContext.Request.Host}/backoffice/customers/{customer.Id}\">Click Here to View Customer Record</a>");
+                await _emailSender.Send(_websiteOptions.Value.EmailRecipients, $"New BodyGenesis Membership: {customer.Name}", $"<a href=\"https://my.bodygenesisfit.com/customers/{customer.Id}\">Click Here to View Customer Record</a>");
             }
 
             else
